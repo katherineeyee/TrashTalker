@@ -34,7 +34,7 @@ const LandingSection = () => {
         </p>
 
         <Link
-          to="/home"
+          to="/"
           className="bg-[#007f3f] text-white px-8 py-3 rounded-md text-lg font-medium hover:bg-[#006835] inline-block"
         >
           Get Started
