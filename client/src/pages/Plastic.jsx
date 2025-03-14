@@ -16,10 +16,10 @@ const Plastic = () => {
         
       </div>
       
-      <div className="w-full md:w-1/3">
+      <div className="w-[28%] h-[28%]">
         <img 
-          src="/api/placeholder/400/320" 
-          alt="Plastic Illustraion" 
+          src="/plasticImage.png"
+          alt="Plastic Illustration"
           className="w-full object-contain"
         />
       </div>
