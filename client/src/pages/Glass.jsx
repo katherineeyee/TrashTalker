@@ -18,9 +18,9 @@ const Glass = () => {
         
       </div>
       
-      <div className="w-full md:w-1/3">
+      <div className="w-[28%] h-[28%]">
         <img 
-          src="/api/placeholder/400/320" 
+          src="/glassImage.png"
           alt="Glass Illustraion" 
           className="w-full object-contain"
         />
