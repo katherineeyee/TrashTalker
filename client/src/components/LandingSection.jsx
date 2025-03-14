@@ -60,9 +60,9 @@ const LandingSection = () => {
         </div>
       </div>
 
-      <div className="w-full md:w-1/3">
+      <div className="w-[38%] h-[38%]">
         <img
-          src="/api/placeholder/400/320"
+          src="/recycleLogoNB.png"
           alt="Recycling Illustration"
           className="w-full object-contain"
         />
