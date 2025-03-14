@@ -19,7 +19,7 @@ const Compost = () => {
       <div className="w-full md:w-1/3">
         <img 
           src="/api/placeholder/400/320" 
-          alt="Compost Illustraion" 
+          alt="Compost Illustration"
           className="w-full object-contain"
         />
       </div>

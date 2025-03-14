@@ -21,7 +21,7 @@ const Glass = () => {
       <div className="w-[28%] h-[28%]">
         <img 
           src="/glassImage.png"
-          alt="Glass Illustraion" 
+          alt="Glass Illustration"
           className="w-full object-contain"
         />
       </div>
