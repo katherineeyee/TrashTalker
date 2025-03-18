@@ -23,6 +23,8 @@
     "concurrently": "^8.2.0",
     "cors": "^2.8.5",
     "express": "^4.21.2",
+    "firebase": "^11.4.0",
+    "firebase-admin": "^13.2.0",
     "morgan": "^1.10.0",
     "react-router-dom": "^7.3.0"
   }
