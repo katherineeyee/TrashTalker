@@ -32,8 +32,12 @@ const LandingSection = () => {
   };
 
   return (
-    <div className="bg-gray-50 py-16">
-      <div className="container mx-auto px-6">
+    <div
+      id="
+    "
+      className="bg-gray-50 py-16"
+    >
+      <div id="home" className="container mx-auto px-6">
         <div className="flex flex-col md:flex-row items-center justify-between">
           {/* Left column with text content */}
           <div className="w-full md:w-1/2 mb-12 md:mb-0">

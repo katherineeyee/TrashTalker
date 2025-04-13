@@ -31,7 +31,7 @@ const Navbar = () => {
         </Link>
 
         {/* Navigation links  */}
-        <div className="flex items-center space-x-8">
+        <div id="navbar" className="flex items-center space-x-8">
           <Link
             to="/features"
             className="text-[#4CAF50] font-medium hover:text-[#3d8b40] transition"
