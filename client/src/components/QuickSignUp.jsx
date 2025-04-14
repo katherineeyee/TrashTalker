@@ -1,20 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { Check } from "lucide-react";
 import { FcGoogle } from "react-icons/fc";
-import { login, onUserStateChange } from "../api/firebase"; // Import your existing Firebase functions
+import { login, onUserStateChange } from "../api/firebase";
 
 const QuickSignUp = () => {
   const [user, setUser] = useState();
   const [isLogin, setIsLogin] = useState(true);
 
   useEffect(() => {
-    // Using the imported onUserStateChange function
     onUserStateChange((currentUser) => {
       setUser(currentUser);
     });
   }, []);
 
-  // Using the imported login function
   const handleAuth = () => {
     login().then((currentUser) => setUser(currentUser));
   };
