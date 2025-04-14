@@ -9,7 +9,7 @@ import QuickSignUp from "../components/QuickSignUp";
 import Reward from "../components/Reward";
 const HomePage = () => {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div id="home" className="min-h-screen bg-gray-50">
       <Navbar />
       <div className="container mx-auto">
         <LandingSection />
