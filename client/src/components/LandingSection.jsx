@@ -1,9 +1,11 @@
-import React from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { login } from "../api/firebase"; // Import your existing Firebase login function
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { login } from "../api/firebase";
+import SearchBox from "./SearchBox";
 
 const LandingSection = () => {
   const navigate = useNavigate();
+  const [showSearch, setShowSearch] = useState(false);
 
   const commonMaterials = [
     { id: 1, name: "Glass" },
@@ -21,7 +23,7 @@ const LandingSection = () => {
   // Function to handle Google sign up/login
   const handleGoogleSignUp = async () => {
     try {
-      const user = await login(); // Using your existing Firebase login function
+      const user = await login();
       if (user) {
         // Redirect to dashboard or home page after successful login
         navigate("/");
@@ -31,13 +33,23 @@ const LandingSection = () => {
     }
   };
 
+  // Show search area and position it in view
+  const handleLearnMore = () => {
+    // show the search section if it's not already visible
+    if (!showSearch) {
+      setShowSearch(true);
+    }
+
+    //  scroll to the search-heading element -
+    document.getElementById("search-heading")?.scrollIntoView({
+      behavior: "smooth",
+      block: "start", // Positions the element
+    });
+  };
+
   return (
-    <div
-      id="
-    "
-      className="bg-gray-50 py-16"
-    >
-      <div id="home" className="container mx-auto px-6">
+    <div className="bg-gray-50">
+      <div id="home" className="container mx-auto px-6 py-16">
         <div className="flex flex-col md:flex-row items-center justify-between">
           {/* Left column with text content */}
           <div className="w-full md:w-1/2 mb-12 md:mb-0">
@@ -58,12 +70,12 @@ const LandingSection = () => {
               >
                 Sign Up Free
               </button>
-              <Link
-                to="/learn-more"
+              <button
+                onClick={handleLearnMore}
                 className="bg-white text-gray-800 border border-gray-300 px-8 py-3 rounded-md whitespace-nowrap hover:bg-gray-50 transition text-lg font-medium text-center"
               >
                 Learn More
-              </Link>
+              </button>
             </div>
 
             {/* Material dropdown section */}
@@ -91,8 +103,28 @@ const LandingSection = () => {
               alt="Recycling Illustration"
               className="w-full object-contain"
             />
-          </div>{" "}
+          </div>
         </div>
+
+        {/* Search Section - will show when Learn More is clicked */}
+        {showSearch && (
+          <div className="mt-12 mb-10 pt-8 pb-10 bg-gray-100 rounded-lg shadow-inner">
+            <div className="text-center mb-8">
+              {/* Add id to the heading to scroll to it */}
+              <h2
+                id="search-heading"
+                className="text-3xl font-bold text-gray-800 mb-4 pt-4"
+              >
+                What Would You Like to Recycle?
+              </h2>
+              <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+                Search for items or upload a photo for instant identification
+                and recycling instructions.
+              </p>
+            </div>
+            <SearchBox />
+          </div>
+        )}
       </div>
     </div>
   );
