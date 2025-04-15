@@ -1,10 +1,13 @@
 import React, { useState, useRef } from "react";
 import { Search, Camera } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const SearchBox = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [uploadedImage, setUploadedImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
+  const navigate = useNavigate();
+
   const fileInputRef = useRef(null);
 
   const handleSearchChange = (e) => {
@@ -28,13 +31,38 @@ const SearchBox = () => {
   const handleSearch = (e) => {
     e.preventDefault();
 
-    //  handle the search functionality
+    // Original search functionality for future API integration
     if (uploadedImage) {
       console.log("Processing image:", uploadedImage);
-      // image processing API here
+      // Future image processing API here
     } else if (searchQuery) {
       console.log("Processing text search:", searchQuery);
-      //text search API here
+      // Future text search API here
+    }
+
+    // Material page navigation for current temporart page
+    const query = searchQuery.toLowerCase();
+
+    if (
+      query.includes("glass") ||
+      query.includes("bottle") ||
+      query.includes("jar")
+    ) {
+      navigate("/Glass");
+    } else if (query.includes("plastic") || query.includes("container")) {
+      navigate("/Plastic");
+    } else if (
+      query.includes("compost") ||
+      query.includes("food") ||
+      query.includes("organic")
+    ) {
+      navigate("/Compost");
+    } else if (uploadedImage) {
+      // For image uploads, just use a random material for now
+      const materials = ["Glass", "Plastic", "Compost"];
+      const randomMaterial =
+        materials[Math.floor(Math.random() * materials.length)];
+      navigate(`/${randomMaterial}`);
     }
   };
 

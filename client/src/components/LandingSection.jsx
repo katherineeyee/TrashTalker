@@ -40,7 +40,7 @@ const LandingSection = () => {
       setShowSearch(true);
     }
 
-    //  scroll to the search-heading element -
+    //  scroll to the search
     document.getElementById("search-heading")?.scrollIntoView({
       behavior: "smooth",
       block: "start", // Positions the element
@@ -110,7 +110,6 @@ const LandingSection = () => {
         {showSearch && (
           <div className="mt-12 mb-10 pt-8 pb-10 bg-gray-100 rounded-lg shadow-inner">
             <div className="text-center mb-8">
-              {/* Add id to the heading to scroll to it */}
               <h2
                 id="search-heading"
                 className="text-3xl font-bold text-gray-800 mb-4 pt-4"
