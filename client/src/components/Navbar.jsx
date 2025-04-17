@@ -35,7 +35,6 @@ const Navbar = () => {
       <nav className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-200 shadow-sm py-2 px-4">
         <div className="container mx-auto flex justify-between items-center">
           <Link to="/">
-
             <img
               src="/TrashTalkerLogo.png"
               alt="TrashTalker Logo"
