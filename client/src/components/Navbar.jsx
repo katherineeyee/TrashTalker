@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { logout, onUserStateChange } from "../api/firebase";
 
 const Navbar = () => {
@@ -16,6 +16,9 @@ const Navbar = () => {
       document
         .getElementById(location.hash.slice(1))
         ?.scrollIntoView({ behavior: "smooth" });
+    } else if (location.pathname === "/") {
+      // Scroll to top when navigating to home without hash
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   }, [location]);
 
@@ -29,18 +32,23 @@ const Navbar = () => {
     }
   };
 
+  const goToHome = () => {
+    navigate("/");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   return (
     <>
       <div className="h-20"></div>
       <nav className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-200 shadow-sm py-2 px-4">
         <div className="container mx-auto flex justify-between items-center">
-          <Link to="/">
+          <button onClick={goToHome} className="focus:outline-none">
             <img
               src="/TrashTalkerLogo.png"
               alt="TrashTalker Logo"
               className="h-16"
             />
-          </Link>
+          </button>
 
           <div className="flex items-center space-x-8">
             <button
