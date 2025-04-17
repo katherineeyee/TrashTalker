@@ -20,12 +20,16 @@ mongoose.connect(MongoDbURI)
 
 
 // Routes
-const Test = require("./models/Test");
+const Users = require("./models/Users");
 
-app.get("/api/tests", async (req, res) => {
+// API gets all user objects
+// can test in browser by starting app
+// and visiting url http://localhost:5001/api/users
+// make sure port number is correct for your system
+app.get("/api/users", async (req, res) => {
   try {
-    const tests = await Test.find();
-    res.json(tests);
+    const users = await Users.find();
+    res.json(users);
   } catch (error) {
     console.error(error);
     res.status(500).send("Server Error");
