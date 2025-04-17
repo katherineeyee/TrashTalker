@@ -1,74 +1,87 @@
 import React, { useState, useEffect } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { logout, onUserStateChange } from "../api/firebase";
 
 const Navbar = () => {
   const [user, setUser] = useState();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
-    onUserStateChange((user) => {
-      setUser(user);
-    });
+    onUserStateChange(setUser);
   }, []);
 
-  const handleLogout = () => {
-    logout().then(() => setUser(null));
+  useEffect(() => {
+    if (location.hash) {
+      document
+        .getElementById(location.hash.slice(1))
+        ?.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [location]);
+
+  const navigateToSection = (sectionId) => {
+    if (location.pathname === "/") {
+      document
+        .getElementById(sectionId)
+        ?.scrollIntoView({ behavior: "smooth" });
+    } else {
+      navigate(`/#${sectionId}`);
+    }
   };
 
   return (
     <>
-      {/* Spacer div to prevent content from being hidden under navbar */}
       <div className="h-20"></div>
-
-      <nav className="fixed top-0 left-0 right-0 z-50 flex justify-between items-center py-2 px-4 bg-white border-b border-gray-200 shadow-sm">
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-200 shadow-sm py-2 px-4">
         <div className="container mx-auto flex justify-between items-center">
-          <a href="/">
+          <Link to="/">
+
             <img
               src="/TrashTalkerLogo.png"
               alt="TrashTalker Logo"
               className="h-16"
             />
-          </a>
+          </Link>
 
-          {/* Navigation links */}
-          <div id="navbar" className="flex items-center space-x-8">
-            <a
-              href="#features"
+          <div className="flex items-center space-x-8">
+            <button
+              onClick={() => navigateToSection("features")}
               className="text-[#4CAF50] font-medium hover:text-[#3d8b40] transition"
             >
               Features
-            </a>
-            <a
-              href="#gamification"
+            </button>
+            <button
+              onClick={() => navigateToSection("gamification")}
               className="text-gray-700 hover:text-[#4CAF50] transition"
             >
               Gamification
-            </a>
-            <a
-              href="#rewards"
+            </button>
+            <button
+              onClick={() => navigateToSection("rewards")}
               className="text-gray-700 hover:text-[#4CAF50] transition"
             >
               Rewards
-            </a>
+            </button>
 
             {!user ? (
               <>
-                <a
-                  href="#signup"
-                  className="bg-[#4CAF50] text-white px-6 py-2 rounded-md whitespace-nowrap hover:bg-opacity-90 transition inline-block text-center"
+                <button
+                  onClick={() => navigateToSection("signup")}
+                  className="bg-[#4CAF50] text-white px-6 py-2 rounded-md hover:bg-opacity-90 transition"
                 >
                   Log In
-                </a>
-                <a
-                  href="#signup"
-                  className="border border-[#4CAF50] text-[#4CAF50] px-6 py-2 rounded-md whitespace-nowrap hover:bg-[#4CAF50] hover:bg-opacity-10 transition inline-block text-center"
+                </button>
+                <button
+                  onClick={() => navigateToSection("signup")}
+                  className="border border-[#4CAF50] text-[#4CAF50] px-6 py-2 rounded-md hover:bg-opacity-10 hover:bg-[#4CAF50] transition"
                 >
                   Sign Up
-                </a>
+                </button>
               </>
             ) : (
               <button
-                onClick={handleLogout}
-                className="bg-[#4CAF50] text-white px-6 py-2 rounded-md whitespace-nowrap hover:bg-opacity-90 transition"
+                onClick={() => logout().then(() => setUser(null))}
+                className="bg-[#4CAF50] text-white px-6 py-2 rounded-md hover:bg-opacity-90 transition"
               >
                 Log Out
               </button>
