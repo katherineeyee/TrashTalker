@@ -73,5 +73,28 @@ app.post("/api/users", async (req, res)=> {
   }
 });
 
+// API to update user score
+// http://localhost:5001/api/users/<user id>
+app.put("/api/users/:id", async (req, res) => {
+  const {id} = req.params;
+  const {points} = req.body;
+
+  try {
+    const updatedUser = await User.findByIdAndUpdate(
+        id,
+        {points},
+        {new: true}
+    );
+    if (!updatedUser) {
+      return res.status(404).send("Error: User not found");
+    }
+    res.json(updatedUser);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Server Error (put)");
+  }
+});
+
+
 // Start server
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
