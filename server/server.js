@@ -2,6 +2,8 @@
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
+// Schema definitions
+const User = require("./models/Users");
 
 const app = express();
 const PORT = process.env.PORT || 5001; //changed port no. from 5000 to 5001
@@ -19,16 +21,13 @@ mongoose.connect(MongoDbURI)
     .catch(err => console.log("Error connecting to database", err));
 
 
-const User = require("./models/Users");
-const Users = require("./models/Users");
-
 // API gets all user objects
 // can test in browser by starting app
 // and visiting url http://localhost:5001/api/users
 // make sure port number is correct for your system
 app.get("/api/users", async (req, res) => {
   try {
-    const users = await Users.find();
+    const users = await User.find();
     res.json(users);
   } catch (error) {
     console.error(error);
@@ -36,6 +35,25 @@ app.get("/api/users", async (req, res) => {
   }
 });
 
+// http://localhost:5001/api/users/topScore?numUsers=3
+// get top users by score
+// can get variable number of users by
+// changing numUsers value in http req (default is 5)
+app.get("/api/users/topScore", async (req, res) => {
+  const numUsers = parseInt(req.query.numUsers) || 5;
+  try {
+    const topUsers = await User.find()
+        .sort({points: -1})
+        .limit(numUsers);
+
+    res.json(topUsers);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Server Error (get top users)")
+  }
+})
+
+// API posts new user to database
 app.post("/api/users", async (req, res)=> {
   const {firstName, lastName, email, googleId, points, location} = req.body;
   try {
