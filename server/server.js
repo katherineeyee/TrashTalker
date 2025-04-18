@@ -19,7 +19,7 @@ mongoose.connect(MongoDbURI)
     .catch(err => console.log("Error connecting to database", err));
 
 
-// Routes
+const User = require("./models/Users");
 const Users = require("./models/Users");
 
 // API gets all user objects
@@ -32,7 +32,26 @@ app.get("/api/users", async (req, res) => {
     res.json(users);
   } catch (error) {
     console.error(error);
-    res.status(500).send("Server Error");
+    res.status(500).send("Server Error (get)");
+  }
+});
+
+app.post("/api/users", async (req, res)=> {
+  const {firstName, lastName, email, googleId, points, location} = req.body;
+  try {
+    const user = new User({
+      firstName,
+      lastName,
+      email,
+      googleId,
+      points: points || 0,
+      location,
+      dateCreated: new Date()
+    });
+    const savedUser = await user.save();
+    res.status(201).json(savedUser);
+  } catch (error) {
+    res.status(500).send("Server Error (post)")
   }
 });
 
