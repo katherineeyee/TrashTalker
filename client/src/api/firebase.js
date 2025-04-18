@@ -15,9 +15,22 @@ const provider = new GoogleAuthProvider();
 
 export async function login() {
   signInWithPopup(auth, provider)
-  .then((result) => {
+  .then(async (result) => {
     const user = result.user;
     console.log(user);
+
+    const [firstName, lastName] = user.displayName ? user.displayName.split(' ') : ['', ''];
+    // Add user to database
+    await fetch('http://localhost:5001/api/users', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        firstName: firstName,
+        lastName: lastName,
+        email: user.email,
+      })
+    });
+
     return user;
   }).catch(console.error);
 }

@@ -36,13 +36,18 @@ router.get("/topScore", async (req, res) => {
 
 // API posts new user to database
 router.post("/", async (req, res)=> {
-  const {firstName, lastName, email, googleId, points, location} = req.body;
+  const {firstName, lastName, email, points, location} = req.body;
   try {
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      // if user exists return
+      return res.status(400).json({ message: 'User already exists with this email.' });
+    }
+
     const user = new User({
       firstName,
       lastName,
       email,
-      googleId,
       points: points || 0,
       location,
       dateCreated: new Date()
@@ -50,7 +55,8 @@ router.post("/", async (req, res)=> {
     const savedUser = await user.save();
     res.status(201).json(savedUser);
   } catch (error) {
-    res.status(500).send("Server Error (post)")
+    console.error(error);
+    res.status(500).send("Server Error (post)");
   }
 });
 
