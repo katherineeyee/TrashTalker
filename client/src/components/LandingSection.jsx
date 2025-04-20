@@ -11,6 +11,11 @@ const LandingSection = () => {
     { id: 1, name: "Glass" },
     { id: 2, name: "Plastic" },
     { id: 3, name: "Compost" },
+    { id: 4, name: "Metal" },
+    { id: 5, name: "Electronics" },
+    { id: 6, name: "Rubber" },
+    { id: 7, name: "Paper" },
+    { id: 8, name: "Batteries" },
   ];
 
   const handleMaterialSelect = (event) => {
