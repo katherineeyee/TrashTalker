@@ -5,6 +5,11 @@ import HomePage from "./pages/HomePage";
 import Glass from "./pages/Glass";
 import Plastic from "./pages/Plastic";
 import Compost from "./pages/Compost";
+import Metal from "./pages/Metal";
+import Electronics from "./pages/Electronics";
+import Batteries from "./pages/Batteries";
+import Rubber from "./pages/Rubber";
+import Paper from "./pages/Paper";
 import Footer from "./components/Footer";
 
 function App() {
@@ -15,6 +20,11 @@ function App() {
         <Route path="/Glass" element={<Glass />} />
         <Route path="/Plastic" element={<Plastic />} />
         <Route path="/Compost" element={<Compost />} />
+        <Route path="/Metal" element={<Metal />} />
+        <Route path="/Electronics" element={<Electronics />} />
+        <Route path="/Batteries" element={<Batteries/>} />
+        <Route path="/Rubber" element={<Rubber/>} />
+        <Route path="/Paper" element={<Paper/>} />
         {/* Add more routes as needed */}
       </Routes>
       <Footer />
