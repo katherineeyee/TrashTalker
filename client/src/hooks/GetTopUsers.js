@@ -24,7 +24,7 @@ export const GetTopUsers = (numUsers) => {
             .catch((error) => {
                 console.error('Error fetching top users:', error);
             });
-    }, []);
+    }, [numUsers]);
 
     return data;
 };
