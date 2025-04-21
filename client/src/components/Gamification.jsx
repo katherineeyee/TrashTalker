@@ -11,6 +11,7 @@ import {
   CupSoda,
   Wine,
 } from "lucide-react";
+import {GetTopUsers} from "../hooks/GetTopUsers";
 
 const iconCircle = (Icon, size, bg, text, ring = "") => (
   <div
@@ -21,19 +22,16 @@ const iconCircle = (Icon, size, bg, text, ring = "") => (
 );
 
 const Gamification = () => {
-  const leaderboard = [
-    {
-      position: "1",
-      name: "A Smith",
-      location: "Milpitas, CA",
-      points: "7,654",
-      highlight: true,
-    },
-    { position: 2, name: "B Johnson", location: "Austin, TX", points: "6,543" },
-    { position: 3, name: "C Lee", location: "Seattle, WA", points: "5,432" },
-    { position: 4, name: "D Chen", location: "Chicago, IL", points: "4,321" },
-    { position: 5, name: "E Marinez", location: "Miami, FL", points: "2,310" },
-  ];
+  const data = GetTopUsers(5);
+
+
+  const leaderboard = data.map((user, index) => ({
+    position: index+1,
+    name: user.firstName + ' ' + user.lastName,
+    location: user.location,
+    points: user.points,
+    highlight: true
+  }));
 
   const points = [
     {
