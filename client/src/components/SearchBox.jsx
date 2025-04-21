@@ -57,6 +57,23 @@ const SearchBox = () => {
       query.includes("organic")
     ) {
       navigate("/Compost");
+    } else if (query.includes("rubber") || query.includes("glove")) {
+      navigate("/Rubber");
+    } else if (query.includes("paper") || query.includes("scrap")) {
+      navigate("/Paper");
+    } else if (
+        query.includes("electronic") ||
+        query.includes("phone") ||
+        query.includes("device")
+    ) {
+      navigate("/Electronics");
+    } else if (query.includes("battery") || query.includes("lithium")) {
+      navigate("/Batteries");
+    } else if (query.includes("metal") || 
+        query.includes("soda") ||
+        query.includes("can")
+    ) {
+      navigate("/Metal");
     } else if (uploadedImage) {
       // For image uploads, just use a random material for now
       const materials = ["Glass", "Plastic", "Compost"];
