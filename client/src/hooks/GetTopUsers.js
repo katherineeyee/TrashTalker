@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 
-export const GetTopUsers = () => {
+export const GetTopUsers = (numUsers) => {
     const [data, setData] = useState([]);
 
     useEffect(() => {
-        fetch('http://localhost:5001/api/users/topScore')
+        let url = 'http://localhost:5001/api/users/topScore?numUsers=' + numUsers;
+        fetch(url)
             .then((res) => res.json())
             .then((data) => {
                 console.log(data);
