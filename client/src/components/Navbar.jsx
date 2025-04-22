@@ -13,7 +13,12 @@ const Navbar = () => {
   }, []);
 
   useEffect(() => {
-    if (location.hash) {
+    if (location.pathname === "/leaderboard") {
+      // Force gamification to be the active section if on leaderboard page
+      setActiveSection("gamification");
+    } if (location.pathname === "/account") {
+      setActiveSection("account");
+    } else if (location.hash) {
       const section = location.hash.slice(1);
       setActiveSection(section);
       document.getElementById(section)?.scrollIntoView({ behavior: "smooth" });
@@ -38,24 +43,34 @@ const Navbar = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
     setActiveSection("");
   };
+  
+  const goToAccount = () => {
+    navigate("/account");
+  };
 
-  const navButtonClass = (section) =>
-    `font-medium transition ${
+  const navButtonClass = (section) => {
+    return `font-medium transition ${
       activeSection === section
         ? "text-[#4CAF50]"
         : "text-gray-700 hover:text-[#4CAF50]"
     }`;
+  };
   
+
+  // Direct login with Google
   const handleDirectLogin = () => {
     login().then((currentUser) => setUser(currentUser));
   };
 
+  // Navigate to signup section 
   const navigateToSignup = () => {
     navigateToSection("signup");
+    // Set URL parameter to show signup mode
     setTimeout(() => {
       const newUrl = new URL(window.location.href);
       newUrl.searchParams.set('signup', 'true');
       window.history.replaceState({}, '', newUrl);
+      // Trigger a URL change event to notify components
       window.dispatchEvent(new Event('popstate'));
     }, 100);
   };
@@ -109,12 +124,27 @@ const Navbar = () => {
                 </button>
               </>
             ) : (
-              <button
-                onClick={() => logout().then(() => setUser(null))}
-                className="bg-[#4CAF50] text-white px-6 py-2 rounded-md hover:bg-opacity-90 transition"
-              >
-                Log Out
-              </button>
+              <>
+                <button
+                  onClick={goToAccount}
+                  className={navButtonClass("account")}
+                >
+                  Account
+                </button>
+
+                <button
+                  onClick={() =>
+                    logout().then(() => {
+                      setUser(null);
+                      navigate("/");
+                      setActiveSection("features");
+                    })
+                  }
+                  className="bg-[#4CAF50] text-white px-6 py-2 rounded-md hover:bg-opacity-90 transition"
+                >
+                  Log Out
+                </button>
+              </>
             )}
           </div>
         </div>

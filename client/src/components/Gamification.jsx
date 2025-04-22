@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Leaf,
   Droplet,
@@ -11,7 +11,9 @@ import {
   CupSoda,
   Wine,
 } from "lucide-react";
-import {GetTopUsers} from "../hooks/GetTopUsers";
+import { GetTopUsers } from "../hooks/GetTopUsers";
+import { useNavigate } from "react-router-dom";
+import { login, onUserStateChange } from "../api/firebase";
 
 const iconCircle = (Icon, size, bg, text, ring = "") => (
   <div
@@ -23,7 +25,34 @@ const iconCircle = (Icon, size, bg, text, ring = "") => (
 
 const Gamification = () => {
   const data = GetTopUsers(5);
+  const navigate = useNavigate();
+  const [user, setUser] = useState(null);
+  const [authDialogActive, setAuthDialogActive] = useState(false);
 
+  // Listen for authentication state changes
+  useEffect(() => {
+    const unsubscribe = onUserStateChange((currentUser) => {
+      setUser(currentUser);
+      
+      // If user just logged in and dialog was active, remove dialog and navigate
+      if (currentUser && authDialogActive) {
+        removeAuthDialog();
+        navigate('/leaderboard');
+      }
+    });
+    
+    // Cleanup subscription
+    return () => unsubscribe?.();
+  }, [navigate, authDialogActive]);
+
+  // Function to remove dialog - defined outside so it can be used anywhere
+  const removeAuthDialog = () => {
+    const dialogElement = document.getElementById('auth-dialog');
+    if (dialogElement) {
+      document.body.removeChild(dialogElement);
+    }
+    setAuthDialogActive(false);
+  };
 
   const leaderboard = data.map((user, index) => ({
     position: index+1,
@@ -109,6 +138,79 @@ const Gamification = () => {
     },
   ];
 
+  // Handle leaderboard click with authentication check
+  const handleLeaderboardClick = () => {
+    if (user) {
+      navigate('/leaderboard');
+    } else {
+      // Show authentication
+      showAuthOptions();
+    }
+  };
+
+  // Authentication options
+  const showAuthOptions = () => {
+    setAuthDialogActive(true);
+    
+    const authDialog = document.createElement('div');
+    authDialog.id = 'auth-dialog';
+    authDialog.className = 'fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50';
+    authDialog.innerHTML = `
+      <div class="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
+        <h3 class="text-xl font-bold text-gray-800 mb-4">Sign in Required</h3>
+        <p class="mb-6 text-gray-600">
+          You need to be logged in to view the full leaderboard. Please sign in or create an account.
+        </p>
+        <div class="flex justify-between">
+          <button id="login-btn" 
+            class="px-5 py-2 bg-[#4CAF50] text-white rounded hover:bg-opacity-90 font-medium">
+            Log In
+          </button>
+          <button id="signup-btn"
+            class="px-5 py-2 border border-[#4CAF50] text-[#4CAF50] rounded hover:bg-opacity-10 hover:bg-[#4CAF50] transition font-medium">
+            Sign Up
+          </button>
+          <button id="cancel-btn"
+            class="px-5 py-2 text-gray-600 hover:text-gray-800">
+            Cancel
+          </button>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(authDialog);
+
+    document.getElementById('login-btn').addEventListener('click', () => {
+      document.getElementById('login-btn').textContent = 'Loading...';
+      document.getElementById('login-btn').disabled = true;
+      
+      login().catch((error) => {
+        console.error("Login failed:", error);
+        removeAuthDialog();
+      });
+    });
+
+    document.getElementById('signup-btn').addEventListener('click', () => {
+      removeAuthDialog();
+      navigate('/#signup');
+      setTimeout(() => {
+        const newUrl = new URL(window.location.href);
+        newUrl.searchParams.set('signup', 'true');
+        window.history.replaceState({}, '', newUrl);
+        window.dispatchEvent(new Event('popstate'));
+      }, 100);
+    });
+
+    document.getElementById('cancel-btn').addEventListener('click', () => {
+      removeAuthDialog();
+    });
+    
+    authDialog.addEventListener('click', (e) => {
+      if (e.target === authDialog) {
+        removeAuthDialog();
+      }
+    });
+  };
+
   return (
     <section id="gamification" className="py-20 bg-gray-50">
       <div className="container mx-auto px-6">
@@ -166,7 +268,10 @@ const Gamification = () => {
               )}
             </div>
             <div className="mt-6 text-center">
-              <button className="text-[#4CAF50] font-medium hover:underline">
+              <button
+                onClick={handleLeaderboardClick}
+                className="text-[#4CAF50] font-medium hover:underline"
+              >
                 View Full Leaderboard
               </button>
             </div>
