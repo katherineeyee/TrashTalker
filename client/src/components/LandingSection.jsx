@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { login } from "../api/firebase";
 import SearchBox from "./SearchBox";
 
 const LandingSection = () => {
@@ -25,16 +24,30 @@ const LandingSection = () => {
     }
   };
 
-  // Function to handle Google sign up/login
-  const handleGoogleSignUp = async () => {
-    try {
-      const user = await login();
-      if (user) {
-        // Redirect to dashboard or home page after successful login
-        navigate("/");
-      }
-    } catch (error) {
-      console.error("Error during sign up:", error);
+  // Function to scroll to the signup section
+  const handleSignUpScroll = () => {
+    // First check if the signup section exists
+    const signupSection = document.getElementById("signup");
+    
+    if (signupSection) {
+      // If it exists, scroll to it
+      signupSection.scrollIntoView({ 
+        behavior: "smooth", 
+        block: "start" 
+      });
+      
+      // Set URL parameter to show signup mode
+      setTimeout(() => {
+        const newUrl = new URL(window.location.href);
+        newUrl.searchParams.set('signup', 'true');
+        window.history.replaceState({}, '', newUrl);
+        
+        // Dispatch event to notify other components
+        window.dispatchEvent(new Event('popstate'));
+      }, 100);
+    } else {
+      // If the section doesn't exist on the current page, navigate to home with signup hash
+      navigate('/#signup');
     }
   };
 
@@ -70,7 +83,7 @@ const LandingSection = () => {
 
             <div className="flex flex-col sm:flex-row gap-4 mb-10">
               <button
-                onClick={handleGoogleSignUp}
+                onClick={handleSignUpScroll}
                 className="bg-[#4CAF50] text-white px-8 py-3 rounded-md whitespace-nowrap hover:bg-opacity-90 transition text-lg font-medium text-center"
               >
                 Sign Up Free

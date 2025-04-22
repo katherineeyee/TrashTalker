@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { logout, onUserStateChange } from "../api/firebase";
+import { logout, onUserStateChange, login } from "../api/firebase";
 
 const Navbar = () => {
   const [user, setUser] = useState();
+  const [activeSection, setActiveSection] = useState("features");
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -13,9 +14,9 @@ const Navbar = () => {
 
   useEffect(() => {
     if (location.hash) {
-      document
-        .getElementById(location.hash.slice(1))
-        ?.scrollIntoView({ behavior: "smooth" });
+      const section = location.hash.slice(1);
+      setActiveSection(section);
+      document.getElementById(section)?.scrollIntoView({ behavior: "smooth" });
     } else if (location.pathname === "/") {
       // Scroll to top when navigating to home without hash
       window.scrollTo({ top: 0, behavior: "smooth" });
@@ -23,10 +24,10 @@ const Navbar = () => {
   }, [location]);
 
   const navigateToSection = (sectionId) => {
+    setActiveSection(sectionId);
+
     if (location.pathname === "/") {
-      document
-        .getElementById(sectionId)
-        ?.scrollIntoView({ behavior: "smooth" });
+      document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" });
     } else {
       navigate(`/#${sectionId}`);
     }
@@ -35,6 +36,28 @@ const Navbar = () => {
   const goToHome = () => {
     navigate("/");
     window.scrollTo({ top: 0, behavior: "smooth" });
+    setActiveSection("");
+  };
+
+  const navButtonClass = (section) =>
+    `font-medium transition ${
+      activeSection === section
+        ? "text-[#4CAF50]"
+        : "text-gray-700 hover:text-[#4CAF50]"
+    }`;
+  
+  const handleDirectLogin = () => {
+    login().then((currentUser) => setUser(currentUser));
+  };
+
+  const navigateToSignup = () => {
+    navigateToSection("signup");
+    setTimeout(() => {
+      const newUrl = new URL(window.location.href);
+      newUrl.searchParams.set('signup', 'true');
+      window.history.replaceState({}, '', newUrl);
+      window.dispatchEvent(new Event('popstate'));
+    }, 100);
   };
 
   return (
@@ -53,19 +76,19 @@ const Navbar = () => {
           <div className="flex items-center space-x-8">
             <button
               onClick={() => navigateToSection("features")}
-              className="text-[#4CAF50] font-medium hover:text-[#3d8b40] transition"
+              className={navButtonClass("features")}
             >
               Features
             </button>
             <button
               onClick={() => navigateToSection("gamification")}
-              className="text-gray-700 hover:text-[#4CAF50] transition"
+              className={navButtonClass("gamification")}
             >
               Gamification
             </button>
             <button
               onClick={() => navigateToSection("rewards")}
-              className="text-gray-700 hover:text-[#4CAF50] transition"
+              className={navButtonClass("rewards")}
             >
               Rewards
             </button>
@@ -73,13 +96,13 @@ const Navbar = () => {
             {!user ? (
               <>
                 <button
-                  onClick={() => navigateToSection("signup")}
+                  onClick={handleDirectLogin}
                   className="bg-[#4CAF50] text-white px-6 py-2 rounded-md hover:bg-opacity-90 transition"
                 >
                   Log In
                 </button>
                 <button
-                  onClick={() => navigateToSection("signup")}
+                  onClick={navigateToSignup}
                   className="border border-[#4CAF50] text-[#4CAF50] px-6 py-2 rounded-md hover:bg-opacity-10 hover:bg-[#4CAF50] transition"
                 >
                   Sign Up
