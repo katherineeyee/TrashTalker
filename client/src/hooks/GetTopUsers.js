@@ -17,7 +17,10 @@ export const GetTopUsers = (numUsers) => {
                     email: item.email,
                     points: item.points,
                     dateCreated: item.dateCreated,
-                    location: item.location
+                    location: item.location,
+                    streak: item.streak,
+                    badges: item.badges,
+                    rewards: item.rewards
                 }));
                 setData(formattedData);
             })

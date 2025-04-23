@@ -88,7 +88,7 @@ const Reward = () => {
         </div>
 
         <button className="bg-[#4CAF50] text-white px-6 py-2 rounded hover:bg-opacity-90 transition font-medium">
-          Start Earning Rewards
+          Start Redeeming Rewards
         </button>
       </div>
     </section>

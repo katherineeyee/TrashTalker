@@ -82,4 +82,21 @@ router.put("/:id", async (req, res) => {
   }
 });
 
+router.get("/byEmail", async (req, res) => {
+  const email = req.query.email;
+  if (!email) {
+    return res.status(400).json({ message: 'Email is required' });
+  }
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ message: 'User not found with this email' });
+    }
+    res.json(user);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Server Error (get user by email)");
+  }
+});
+
 module.exports = router;

@@ -116,7 +116,7 @@ const LeaderboardPage = () => {
                   {user.badges.map((badge, i) => (
                     <div 
                       key={i} 
-                      className={`w-6 h-6 rounded-full flex items-center justify-center ${badge.bg}`}
+                      className={`w-8 h-8 rounded-full flex items-center justify-center ${badge.bg}`}
                       title={badge.label}
                     >
                       <badge.Icon size={12} className={badge.text} />
