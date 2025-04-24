@@ -6,6 +6,14 @@ import { ReactComponent as AmazonIcon } from "../icons/amazon.svg";
 import { ReactComponent as SpotifyIcon } from "../icons/spotify.svg";
 import { ReactComponent as NetflixIcon } from "../icons/netflix.svg";
 import { ReactComponent as UberEatsIcon } from "../icons/ubereats.svg";
+import { ReactComponent as AMCIcon } from "../icons/amc.svg";
+import { ReactComponent as ChipotleIcon } from "../icons/chipotle.svg";
+import { ReactComponent as DoorDashIcon } from "../icons/doordash.svg";
+import { ReactComponent as JambaJuiceIcon } from "../icons/jambajuice.svg";
+import { ReactComponent as McDonaldsIcon } from "../icons/mcdonalds.svg";
+import { ReactComponent as PandaExpressIcon } from "../icons/pandaexpress.svg";
+import { ReactComponent as StarbucksIcon } from "../icons/starbucks.svg";
+import { ReactComponent as TargetIcon } from "../icons/target.svg";
 
 import { 
   User, Award, Gift, Star, Clock, Zap, ChevronRight,
@@ -68,7 +76,7 @@ const badges = [
 const rewards = [
   {
     id: 1,
-    name: "Amazon Gift Card",
+    name: "Amazon",
     points: "5,000 points",
     value: "$25 value",
     bg: "bg-blue-50",
@@ -79,14 +87,14 @@ const rewards = [
     id: 2,
     name: "Spotify Premium",
     points: "3,000 points",
-    value: "$9.99 value",
+    value: "$10 value",
     bg: "bg-green-50",
     icon: SpotifyIcon,
     color: "#1ED760",
   },
   {
     id: 3,
-    name: "Netflix Gift Card",
+    name: "Netflix",
     points: "6,000 points",
     value: "$15 value",
     bg: "bg-red-50",
@@ -95,13 +103,85 @@ const rewards = [
   },
   {
     id: 4,
-    name: "UberEats Voucher",
+    name: "UberEats",
     points: "4,000 points",
     value: "$20 value",
     bg: "bg-yellow-50",
     icon: UberEatsIcon,
     color: "#06C167",
   },
+  {
+    id: 5,
+    name: "AMC Theatres",
+    points: "4,500 points",
+    value: "$20 value",
+    bg: "bg-purple-50",
+    icon: AMCIcon,
+    color: "#D32F2F",
+  },
+  {
+    id: 6,
+    name: "Chipotle",
+    points: "3,500 points",
+    value: "$15 value",
+    bg: "bg-orange-50",
+    icon: ChipotleIcon,
+    color: "#FF7A00",
+  },
+  {
+    id: 7,
+    name: "DoorDash",
+    points: "6,000 points",
+    value: "$25 value",
+    bg: "bg-red-50",
+    icon: DoorDashIcon,
+    color: "#FF3008",
+  },
+  {
+    id: 8,
+    name: "Jamba Juice",
+    points: "2,500 points",
+    value: "$10 value",
+    bg: "bg-pink-50",
+    icon: JambaJuiceIcon,
+    color: "#ED1C24",
+  },
+  {
+    id: 9,
+    name: "McDonald's",
+    points: "3,000 points",
+    value: "$15 value",
+    bg: "bg-yellow-50",
+    icon: McDonaldsIcon,
+    color: "#FFC72C",
+  },
+  {
+    id: 10,
+    name: "Panda Express",
+    points: "2,000 points",
+    value: "$10 value",
+    bg: "bg-red-50",
+    icon: PandaExpressIcon,
+    color: "#D22630",
+  },
+  {
+    id: 11,
+    name: "Starbucks",
+    points: "2,000 points",
+    value: "$10 value",
+    bg: "bg-green-50",
+    icon: StarbucksIcon,
+    color: "#006241",
+  },
+  {
+    id: 12,
+    name: "Target",
+    points: "5,500 points",
+    value: "$25 value",
+    bg: "bg-red-50",
+    icon: TargetIcon,
+    color: "#CC0000",
+  }
 ];
 
 const points = [
