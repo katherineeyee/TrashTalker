@@ -10,12 +10,20 @@ import { ReactComponent as AmazonIcon } from "../icons/amazon.svg";
 import { ReactComponent as SpotifyIcon } from "../icons/spotify.svg";
 import { ReactComponent as NetflixIcon } from "../icons/netflix.svg";
 import { ReactComponent as UberEatsIcon } from "../icons/ubereats.svg";
+import { ReactComponent as AMCIcon } from "../icons/amc.svg";
+import { ReactComponent as ChipotleIcon } from "../icons/chipotle.svg";
+import { ReactComponent as DoorDashIcon } from "../icons/doordash.svg";
+import { ReactComponent as JambaJuiceIcon } from "../icons/jambajuice.svg";
+import { ReactComponent as McDonaldsIcon } from "../icons/mcdonalds.svg";
+import { ReactComponent as PandaExpressIcon } from "../icons/pandaexpress.svg";
+import { ReactComponent as StarbucksIcon } from "../icons/starbucks.svg";
+import { ReactComponent as TargetIcon } from "../icons/target.svg";
 
 // TODO: add more rewards
 const rewards = [
   {
     id: 1,
-    name: "Amazon Gift Card",
+    name: "Amazon",
     description: "Shop from millions of products with your recycling points",
     points: 5000,
     value: "$25 value",
@@ -28,14 +36,14 @@ const rewards = [
     name: "Spotify Premium",
     description: "Enjoy ad-free music streaming for a month",
     points: 3000,
-    value: "$9.99 value",
+    value: "$10 value",
     bg: "bg-green-50",
     icon: SpotifyIcon,
     color: "#1ED760",
   },
   {
     id: 3,
-    name: "Netflix Gift Card",
+    name: "Netflix",
     description: "Stream your favorite shows and movies",
     points: 6000,
     value: "$15 value",
@@ -45,7 +53,7 @@ const rewards = [
   },
   {
     id: 4,
-    name: "UberEats Voucher",
+    name: "UberEats",
     description: "Get your favorite food delivered to your door",
     points: 4000,
     value: "$20 value",
@@ -53,6 +61,86 @@ const rewards = [
     icon: UberEatsIcon,
     color: "#06C167",
   },
+  {
+    id: 5,
+    name: "AMC Theatres",
+    description: "Enjoy the latest movies with theatre treats",
+    points: 4500,
+    value: "$20 value",
+    bg: "bg-purple-50",
+    icon: AMCIcon,
+    color: "#D32F2F",
+  },
+  {
+    id: 6,
+    name: "Chipotle",
+    description: "Build your perfect combo for burrito or bowl",
+    points: 3500,
+    value: "$15 value",
+    bg: "bg-orange-50",
+    icon: ChipotleIcon,
+    color: "#FF7A00",
+  },
+  {
+    id: 7,
+    name: "DoorDash",
+    description: "Food delivery from your favorite local restaurants",
+    points: 6000,
+    value: "$25 value",
+    bg: "bg-red-50",
+    icon: DoorDashIcon,
+    color: "#FF3008",
+  },
+  {
+    id: 8,
+    name: "Jamba Juice",
+    description: "Healthy smoothies and energy bowls",
+    points: 2500,
+    value: "$10 value",
+    bg: "bg-pink-50",
+    icon: JambaJuiceIcon,
+    color: "#ED1C24",
+  },
+  {
+    id: 9,
+    name: "McDonald's",
+    description: "Classic burgers, fries, and McCafé drinks",
+    points: 3000,
+    value: "$15 value",
+    bg: "bg-yellow-50",
+    icon: McDonaldsIcon,
+    color: "#FFC72C",
+  },
+  {
+    id: 10,
+    name: "Panda Express",
+    description: "Delicious Chinese fast food favorites",
+    points: 2000,
+    value: "$10 value",
+    bg: "bg-red-50",
+    icon: PandaExpressIcon,
+    color: "#D22630",
+  },
+  {
+    id: 11,
+    name: "Starbucks",
+    description: "Premium coffee, seasonal drinks, and snacks",
+    points: 2000,
+    value: "$10 value",
+    bg: "bg-green-50",
+    icon: StarbucksIcon,
+    color: "#006241",
+  },
+  {
+    id: 12,
+    name: "Target",
+    description: "Everything from groceries to electronics",
+    points: 5500,
+    value: "$25 value",
+    bg: "bg-red-50",
+    icon: TargetIcon,
+    color: "#CC0000",
+  }
 ];
 
 const RewardsPage = () => {
@@ -149,9 +237,9 @@ const RewardsPage = () => {
       <Navbar />
       <section className="py-10 bg-gray-50 min-h-screen">
         <div className="container mx-auto px-6">
-          <div className="flex items-center mb-8">
-            <h2 className="text-3xl font-bold text-gray-800">
-              Rewards
+          <div className="flex items-center justify-center mb-8">
+            <h2 className="text-3xl font-bold text-center text-gray-800">
+              Browse Rewards
             </h2>
           </div>
 

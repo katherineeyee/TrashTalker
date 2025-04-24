@@ -10,7 +10,7 @@ const PointsSummary = ({ points, availableRewards }) => {
             <Star size={24} className="text-[#4CAF50]" />
           </div>
           <div>
-            <h3 className="text-lg font-semibold text-gray-800">Your Points</h3>
+            <h3 className="text-lg font-semibold text-gray-800">My Points</h3>
             <p className="text-2xl font-bold text-[#4CAF50]">{points.toLocaleString()} points</p>
           </div>
         </div>

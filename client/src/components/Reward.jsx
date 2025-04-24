@@ -22,7 +22,7 @@ const rewards = [
     name: "Spotify Premium",
     description: "Enjoy ad-free music streaming for a month",
     points: "3,000 points",
-    value: "$9.99 value",
+    value: "$10 value",
     bg: "bg-green-50",
     icon: SpotifyIcon,
     color: "#1ED760",
