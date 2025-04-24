@@ -28,7 +28,6 @@ import PointSystemItem from '../components/PointSystemItem';
 import RewardItem from '../components/RewardItem';
 import QuickActionButton from '../components/QuickActionButton';
 
-
 // constants
 const badges = [
   {
@@ -256,6 +255,25 @@ const AccountPage = () => {
     }
   };
 
+  const [isEditing, setIsEditing] = useState(false);
+  const [locationInput, setLocationInput] = useState(userData?.location || 'Click to add');
+
+  const handleLocationUpdate = async () => {
+    setIsEditing(false);
+
+    const res = await fetch(`http://localhost:5001/api/users/${encodeURIComponent(user.email)}/location`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ location: locationInput })
+    });
+
+    const updated = await res.json();
+    // update local state with response
+    setUserData(updated);
+  };
+
   // loading state
   if (isLoading) {
     return (
@@ -296,7 +314,7 @@ const AccountPage = () => {
     points: userData?.points || 0,
     streak: userData?.streak || 0,
     badges: userData?.badges || [],
-    location: userData?.location || 'Not specified',
+    location: userData?.location || '',
     dateCreated: userData?.dateCreated || authUser.metadata?.creationTime,
     rewards: userData?.rewards || [],
     level: Math.floor((userData?.points || 0) / 1000) + 1
@@ -337,10 +355,21 @@ const AccountPage = () => {
                     label="Email" 
                     value={user.email} 
                   />
-                  <UserInfoCard 
-                    icon={MapPin} 
-                    label="Location" 
-                    value={user.location} 
+                  <UserInfoCard
+                      icon={MapPin}
+                      label="Location"
+                      value={
+                        isEditing ? (
+                            <input
+                                value={locationInput}
+                                onChange={(e) => setLocationInput(e.target.value)}
+                                onBlur={() => handleLocationUpdate()}
+                                autoFocus
+                            />
+                        ) : (
+                            <span onClick={() => setIsEditing(true)}>{user?.location || 'Click to add'}</span>
+                        )
+                      }
                   />
                   <UserInfoCard 
                     icon={Calendar} 
