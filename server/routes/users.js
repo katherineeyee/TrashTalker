@@ -61,8 +61,8 @@ router.post("/", async (req, res)=> {
 });
 
 // API to update user score by email
-// http://localhost:5001/api/users/<email>
-router.put("/:email", async (req, res) => {
+//  http://localhost:5001/api/users/rileyshort1%40gmail.com/points
+router.put("/:email/points", async (req, res) => {
   const { email }= req.params;
   const { points } = req.body;
 
@@ -70,6 +70,28 @@ router.put("/:email", async (req, res) => {
     const updatedUser = await User.findOneAndUpdate(
         { email },
         { points },
+        { new: true }
+    );
+    if (!updatedUser) {
+      return res.status(404).send("Error: User not found");
+    }
+    res.json(updatedUser);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Server Error (put)");
+  }
+});
+
+// API to update user location by email
+//  http://localhost:5001/api/users/rileyshort1%40gmail.com/location
+router.put("/:email/location", async (req, res) => {
+  const { email }= req.params;
+  const { location } = req.body;
+
+  try {
+    const updatedUser = await User.findOneAndUpdate(
+        { email },
+        { location },
         { new: true }
     );
     if (!updatedUser) {
