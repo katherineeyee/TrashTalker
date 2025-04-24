@@ -374,6 +374,7 @@ const AccountPage = () => {
               <h3 className="text-lg font-semibold text-gray-800">Reward History</h3>
               <button 
                 className="text-sm text-[#4CAF50] hover:underline flex items-center focus:outline-none focus:ring-2 focus:ring-[#4CAF50] focus:ring-opacity-50 rounded px-2 py-1"
+                onClick={() => navigate('/rewards')}
               >
                 Browse Rewards <ChevronRight size={16} className="ml-1" />
               </button>
@@ -413,6 +414,7 @@ const AccountPage = () => {
                 label="Redeem Rewards" 
                 bgColor="bg-green-100" 
                 iconColor="text-green-600" 
+                onClick={() => navigate('/rewards')}
               />
               <QuickActionButton 
                 icon={Trophy} 

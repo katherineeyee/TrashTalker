@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { ReactComponent as AmazonIcon } from "../icons/amazon.svg";
 import { ReactComponent as SpotifyIcon } from "../icons/spotify.svg";
 import { ReactComponent as NetflixIcon } from "../icons/netflix.svg";
 import { ReactComponent as UberEatsIcon } from "../icons/ubereats.svg";
+import { onUserStateChange, login } from "../api/firebase";
 
 const rewards = [
   {
@@ -48,6 +50,98 @@ const rewards = [
 ];
 
 const Reward = () => {
+  const navigate = useNavigate();
+  const [user, setUser] = useState(null);
+  const [authDialogActive, setAuthDialogActive] = useState(false);
+
+  useEffect(() => {
+    const unsubscribe = onUserStateChange((currentUser) => {
+      setUser(currentUser);
+      if (currentUser && authDialogActive) {
+        removeAuthDialog();
+        navigate('/rewards');
+      }
+    });
+    return () => unsubscribe?.();
+  }, [navigate, authDialogActive]);
+  const removeAuthDialog = () => {
+    const dialogElement = document.getElementById('auth-dialog');
+    if (dialogElement) {
+      document.body.removeChild(dialogElement);
+    }
+    setAuthDialogActive(false);
+  };
+
+  const handleRewardsClick = () => {
+    if (user) {
+      navigate('/rewards');
+    } else {
+      showAuthOptions();
+    }
+  };
+
+  const showAuthOptions = () => {
+    setAuthDialogActive(true);
+    
+    const authDialog = document.createElement('div');
+    authDialog.id = 'auth-dialog';
+    authDialog.className = 'fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50';
+    authDialog.innerHTML = `
+      <div class="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
+        <h3 class="text-xl font-bold text-gray-800 mb-4">Sign in Required</h3>
+        <p class="mb-6 text-gray-600">
+          You need to be logged in to browse and redeem rewards. Please sign in or create an account.
+        </p>
+        <div class="flex justify-between">
+          <button id="login-btn" 
+            class="px-5 py-2 bg-[#4CAF50] text-white rounded hover:bg-opacity-90 font-medium">
+            Log In
+          </button>
+          <button id="signup-btn"
+            class="px-5 py-2 border border-[#4CAF50] text-[#4CAF50] rounded hover:bg-opacity-10 hover:bg-[#4CAF50] transition font-medium">
+            Sign Up
+          </button>
+          <button id="cancel-btn"
+            class="px-5 py-2 text-gray-600 hover:text-gray-800">
+            Cancel
+          </button>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(authDialog);
+
+    document.getElementById('login-btn').addEventListener('click', () => {
+      document.getElementById('login-btn').textContent = 'Loading...';
+      document.getElementById('login-btn').disabled = true;
+      
+      login().catch((error) => {
+        console.error("Login failed:", error);
+        removeAuthDialog();
+      });
+    });
+
+    document.getElementById('signup-btn').addEventListener('click', () => {
+      removeAuthDialog();
+      navigate('/#signup');
+      setTimeout(() => {
+        const newUrl = new URL(window.location.href);
+        newUrl.searchParams.set('signup', 'true');
+        window.history.replaceState({}, '', newUrl);
+        window.dispatchEvent(new Event('popstate'));
+      }, 100);
+    });
+
+    document.getElementById('cancel-btn').addEventListener('click', () => {
+      removeAuthDialog();
+    });
+    
+    authDialog.addEventListener('click', (e) => {
+      if (e.target === authDialog) {
+        removeAuthDialog();
+      }
+    });
+  };
+
   return (
     <section id="rewards" className="py-20 bg-white text-center">
       <div className="container mx-auto px-6">
@@ -87,8 +181,11 @@ const Reward = () => {
           )}
         </div>
 
-        <button className="bg-[#4CAF50] text-white px-6 py-2 rounded hover:bg-opacity-90 transition font-medium">
-          Start Redeeming Rewards
+        <button 
+          onClick={handleRewardsClick}
+          className="bg-[#4CAF50] text-white px-6 py-2 rounded hover:bg-opacity-90 transition font-medium"
+        >
+          Browse Rewards
         </button>
       </div>
     </section>

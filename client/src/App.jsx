@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import AccountPage from "./pages/AccountPage";
 import LeaderboardPage from "./pages/LeaderboardPage";
+import RewardsPage from './pages/RewardsPage';
 import Glass from "./pages/Glass";
 import Plastic from "./pages/Plastic";
 import Compost from "./pages/Compost";
@@ -21,6 +22,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/Account" element={<AccountPage />} />
         <Route path="/leaderboard" element={<LeaderboardPage />} />
+        <Route path="/rewards" element={<RewardsPage />} />
         <Route path="/Glass" element={<Glass />} />
         <Route path="/Plastic" element={<Plastic />} />
         <Route path="/Compost" element={<Compost />} />

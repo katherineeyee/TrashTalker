@@ -16,7 +16,9 @@ const Navbar = () => {
     if (location.pathname === "/leaderboard") {
       // Force gamification to be the active section if on leaderboard page
       setActiveSection("gamification");
-    } if (location.pathname === "/account") {
+    } else if (location.pathname === "/rewards") {
+      setActiveSection("rewards");
+    } else if (location.pathname === "/account") {
       setActiveSection("account");
     } else if (location.hash) {
       const section = location.hash.slice(1);
