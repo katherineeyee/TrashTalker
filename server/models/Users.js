@@ -6,7 +6,9 @@ const userSchema = new mongoose.Schema({
     email: {type: String, required: true, unique: true },
     points: {type: Number, required: true},
     dateCreated: { type: Date, default: Date.now },
-    location: {type: String, required: false}
+    dataOfLastLogin: {type: Date, default: Date.now},
+    location: {type: String, required: false},
+    streak: {type: Number, default: 1}
 });
 
 const users = mongoose.model('users', userSchema, 'users');
