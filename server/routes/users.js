@@ -60,17 +60,17 @@ router.post("/", async (req, res)=> {
   }
 });
 
-// API to update user score
-// http://localhost:5001/api/users/<user id>
-router.put("/:id", async (req, res) => {
-  const {id} = req.params;
-  const {points} = req.body;
+// API to update user score by email
+// http://localhost:5001/api/users/<email>
+router.put("/:email", async (req, res) => {
+  const { email }= req.params;
+  const { points } = req.body;
 
   try {
-    const updatedUser = await User.findByIdAndUpdate(
-        id,
-        {points},
-        {new: true}
+    const updatedUser = await User.findOneAndUpdate(
+        { email },
+        { points },
+        { new: true }
     );
     if (!updatedUser) {
       return res.status(404).send("Error: User not found");
