@@ -16,6 +16,22 @@ router.get("/", async (req, res) => {
   }
 });
 
+// API gets user by email
+router.get("/:email/UserByEmail", async (req, res) => {
+  const { email } = req.params;
+  try {
+    const user = await User.findOne({email});
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.json(user);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Server Error (get)");
+  }
+});
+
 // http://localhost:5001/api/users/topScore?numUsers=3
 // get top users by score
 // can get variable number of users by
@@ -41,7 +57,7 @@ router.post("/", async (req, res)=> {
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       // if user exists return
-      return res.status(400).json({ message: 'User already exists with this email.' });
+      return res.status(200).json({ message: 'User already exists with this email.' });
     }
 
     const user = new User({
@@ -60,17 +76,95 @@ router.post("/", async (req, res)=> {
   }
 });
 
-// API to update user score
-// http://localhost:5001/api/users/<user id>
-router.put("/:id", async (req, res) => {
-  const {id} = req.params;
-  const {points} = req.body;
+// API to update user score by email
+//  http://localhost:5001/api/users/rileyshort1%40gmail.com/points?numPoints=x
+router.put("/:email/points", async (req, res) => {
+  const { email }= req.params;
+  // define # of pts to increment by
+  const ptsIncrement = parseInt(req.query.numPoints) || 1;
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).send("Error: User not found");
+    }
+
+    const updatedPoints = user.points + ptsIncrement;
+    await User.updateOne({email}, {$set: {points: updatedPoints}});
+    res.json(user);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Server Error (put)");
+  }
+});
+
+// API to increment user streak by 1 using email
+//  http://localhost:5001/api/users/rileyshort1%40gmail.com/streak
+router.put("/:email/streak", async (req, res) => {
+  const { email }= req.params;
 
   try {
-    const updatedUser = await User.findByIdAndUpdate(
-        id,
-        {points},
-        {new: true}
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).send("Error: User not found");
+    }
+    const updatedStreak = user.streak + 1;
+    await User.updateOne({email}, {$set: {streak: updatedStreak}});
+    res.json(user);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Server Error (put)");
+  }
+});
+
+// API to reset user streaks to 1 by email
+//  http://localhost:5001/api/users/rileyshort1%40gmail.com/resetStreak
+router.put("/:email/resetStreak", async (req, res) => {
+  const { email }= req.params;
+
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).send("Error: User not found");
+    }
+
+    await User.updateOne({email}, {$set: {streak: 1}});
+    res.json(user);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Server Error (put)");
+  }
+});
+
+// API to update lastLoginDate by email
+//  http://localhost:5001/api/users/rileyshort1%40gmail.com/date
+router.put("/:email/date", async (req, res) => {
+  const { email }= req.params;
+
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).send("Error: User not found");
+    }
+
+    await User.updateOne({email}, {$set: {dateOfLastLogin: Date.now()}});
+    res.json(user);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Server Error (put)");
+  }
+});
+
+// API to update user location by email
+//  http://localhost:5001/api/users/rileyshort1%40gmail.com/location
+router.put("/:email/location", async (req, res) => {
+  const { email }= req.params;
+  const { location } = req.body;
+
+  try {
+    const updatedUser = await User.findOneAndUpdate(
+        { email },
+        { location },
+        { new: true }
     );
     if (!updatedUser) {
       return res.status(404).send("Error: User not found");
@@ -81,6 +175,65 @@ router.put("/:id", async (req, res) => {
     res.status(500).send("Server Error (put)");
   }
 });
+
+// API to update user rewards (streak and points for logging in)
+//  http://localhost:5001/api/users/rileyshort1%40gmail.com/updateRewards
+router.put("/:email/updateRewards", async (req, res) => {
+  const { email }= req.params;
+  // points given for logging in (limit x per day)
+  const pointIncrement = 5;
+
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).send("Error: User not found");
+    }
+    // get user data
+    const response = await fetch(`http://localhost:5001/api/users/${email}/UserByEmail`);
+    const userData = await response.json();
+
+    // get time values
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const lastLogin = new Date(userData.dateOfLastLogin);
+
+    // calculate diff in days from last login
+    const diffInMs = today - lastLogin;
+    const diffInDays = diffInMs / (1000 * 60 * 60 * 24);
+
+    if (diffInDays === 1) { // streak increment and point increment
+      // call api to increment streak by 1 and increment points
+      await fetch(`http://localhost:5001/api/users/${email}/streak`, {
+        method: "PUT"
+      });
+      await fetch(`http://localhost:5001/api/users/${email}/points?numPoints=` + pointIncrement, {
+        method: "PUT"
+      });
+
+    } else if (diffInDays > 1) {
+      // increment points
+      await fetch(`http://localhost:5001/api/users/${email}/points?numPoints=` + pointIncrement, {
+        method: "PUT"
+      });
+      // reset streaks to 1
+      await fetch(`http://localhost:5001/api/users/${email}/resetStreak`,{
+        method: "PUT"
+      });
+    }
+
+    // update date of last login
+    await fetch(`http://localhost:5001/api/users/${email}/date`,{
+      method: "PUT"
+    });
+
+    res.json(response);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Server Error (put)");
+  }
+});
+
+
 
 router.get("/byEmail", async (req, res) => {
   const email = req.query.email;
