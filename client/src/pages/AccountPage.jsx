@@ -367,14 +367,21 @@ const AccountPage = () => {
                                 autoFocus
                             />
                         ) : (
-                            <span onClick={() => setIsEditing(true)}>{user?.location || 'Click to add'}</span>
+                            <span
+                                onClick={() => {
+                                  setLocationInput(user?.location ?? "Click to add");
+                                  setIsEditing(true);
+                                }}
+                            >
+                              {user?.location || "Click to add"}
+                            </span>
                         )
                       }
                   />
-                  <UserInfoCard 
-                    icon={Calendar} 
-                    label="Member Since" 
-                    value={new Date(user.dateCreated).toLocaleDateString('en-US', {
+                  <UserInfoCard
+                      icon={Calendar}
+                      label="Member Since"
+                      value={new Date(user.dateCreated).toLocaleDateString('en-US', {
                       year: 'numeric',
                       month: 'long',
                       day: 'numeric'
