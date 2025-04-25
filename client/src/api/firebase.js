@@ -40,5 +40,13 @@ export async function logout() {
 }
 
 export function onUserStateChange(callback) {
-  return onAuthStateChanged(auth, callback);
+  return onAuthStateChanged(auth, async (user) => {
+    // update user rewards on auth state change (streaks)
+    if (user) {
+      const response = await fetch(`http://localhost:5001/api/users/${encodeURIComponent(user.email)}/updateRewards`, {
+        method: "PUT",
+      });
+    }
+    callback(user);
+  });
 }

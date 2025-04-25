@@ -6,7 +6,7 @@ const userSchema = new mongoose.Schema({
     email: {type: String, required: true, unique: true },
     points: {type: Number, required: true},
     dateCreated: { type: Date, default: Date.now },
-    dataOfLastLogin: {type: Date, default: Date.now},
+    dateOfLastLogin: {type: Date, default: Date.now},
     location: {type: String, required: false},
     streak: {type: Number, default: 1}
 });
