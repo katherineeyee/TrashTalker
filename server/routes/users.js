@@ -89,7 +89,7 @@ router.put("/:email/points", async (req, res) => {
     }
 
     const updatedPoints = user.points + ptsIncrement;
-    await User.updateOne({email}, {$set: {points: ptsIncrement}});
+    await User.updateOne({email}, {$set: {points: updatedPoints}});
     res.json(user);
   } catch (error) {
     console.error(error);
