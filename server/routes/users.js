@@ -193,15 +193,22 @@ router.put("/:email/updateRewards", async (req, res) => {
     const userData = await response.json();
 
     // get time values
-    const now = new Date();
-    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    const lastLogin = new Date(userData.dateOfLastLogin);
+    const now = new Date(); // Local time
+    const today = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate())); // UTC today at midnight
+    const lastLogin = new Date(userData.dateOfLastLogin); // Assuming this is already in UTC
 
-    // calculate diff in days from last login
-    const diffInMs = today - lastLogin;
+    const todayDate = new Date(Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate()));
+    const lastLoginDate = new Date(Date.UTC(lastLogin.getUTCFullYear(), lastLogin.getUTCMonth(), lastLogin.getUTCDate()));
+
+    const diffInMs = todayDate - lastLoginDate;
     const diffInDays = diffInMs / (1000 * 60 * 60 * 24);
 
-    if (diffInDays === 1) { // streak increment and point increment
+    // update date of last login
+    await fetch(`http://localhost:5001/api/users/${email}/date`,{
+      method: "PUT"
+    });
+
+    if (Math.round(diffInDays) === 1) { // streak increment and point increment
       // call api to increment streak by 1 and increment points
       await fetch(`http://localhost:5001/api/users/${email}/streak`, {
         method: "PUT"
@@ -210,7 +217,7 @@ router.put("/:email/updateRewards", async (req, res) => {
         method: "PUT"
       });
 
-    } else if (diffInDays > 1) {
+    } else if (Math.round(diffInDays) > 1) {
       // increment points
       await fetch(`http://localhost:5001/api/users/${email}/points?numPoints=` + pointIncrement, {
         method: "PUT"
@@ -220,11 +227,6 @@ router.put("/:email/updateRewards", async (req, res) => {
         method: "PUT"
       });
     }
-
-    // update date of last login
-    await fetch(`http://localhost:5001/api/users/${email}/date`,{
-      method: "PUT"
-    });
 
     res.json(response);
   } catch (error) {

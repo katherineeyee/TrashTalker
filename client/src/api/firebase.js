@@ -39,14 +39,24 @@ export async function logout() {
   return signOut(auth).then(() => null);
 }
 
+let debounceTimeout = null;
 export function onUserStateChange(callback) {
   return onAuthStateChanged(auth, async (user) => {
-    // update user rewards on auth state change (streaks)
-    if (user) {
-      await fetch(`http://localhost:5001/api/users/${encodeURIComponent(user.email)}/updateRewards`, {
-        method: "PUT",
-      });
+    if (debounceTimeout) {
+      clearTimeout(debounceTimeout);
     }
+    debounceTimeout = setTimeout(async () => {
+      if (user) {
+        try {
+          // Update user rewards on auth state change (streaks)
+          await fetch(`http://localhost:5001/api/users/${encodeURIComponent(user.email)}/updateRewards`, {
+            method: "PUT",
+          });
+        } catch (error) {
+          console.error("Error updating rewards:", error);
+        }
+      }
+    }, 500);
     callback(user);
   });
 }
