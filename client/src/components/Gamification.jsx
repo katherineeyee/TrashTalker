@@ -33,21 +33,21 @@ const Gamification = () => {
   useEffect(() => {
     const unsubscribe = onUserStateChange((currentUser) => {
       setUser(currentUser);
-      
+
       // If user just logged in and dialog was active, remove dialog and navigate
       if (currentUser && authDialogActive) {
         removeAuthDialog();
-        navigate('/leaderboard');
+        navigate("/leaderboard");
       }
     });
-    
+
     // Cleanup subscription
     return () => unsubscribe?.();
   }, [navigate, authDialogActive]);
 
   // Function to remove dialog - defined outside so it can be used anywhere
   const removeAuthDialog = () => {
-    const dialogElement = document.getElementById('auth-dialog');
+    const dialogElement = document.getElementById("auth-dialog");
     if (dialogElement) {
       document.body.removeChild(dialogElement);
     }
@@ -55,11 +55,11 @@ const Gamification = () => {
   };
 
   const leaderboard = data.map((user, index) => ({
-    position: index+1,
-    name: user.firstName + ' ' + user.lastName,
+    position: index + 1,
+    name: user.firstName + " " + user.lastName,
     location: user.location,
     points: user.points,
-    highlight: true
+    highlight: true,
   }));
 
   const points = [
@@ -141,7 +141,7 @@ const Gamification = () => {
   // Handle leaderboard click with authentication check
   const handleLeaderboardClick = () => {
     if (user) {
-      navigate('/leaderboard');
+      navigate("/leaderboard");
     } else {
       // Show authentication
       showAuthOptions();
@@ -151,10 +151,11 @@ const Gamification = () => {
   // Authentication options
   const showAuthOptions = () => {
     setAuthDialogActive(true);
-    
-    const authDialog = document.createElement('div');
-    authDialog.id = 'auth-dialog';
-    authDialog.className = 'fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50';
+
+    const authDialog = document.createElement("div");
+    authDialog.id = "auth-dialog";
+    authDialog.className =
+      "fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50";
     authDialog.innerHTML = `
       <div class="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
         <h3 class="text-xl font-bold text-gray-800 mb-4">Sign in Required</h3>
@@ -179,32 +180,32 @@ const Gamification = () => {
     `;
     document.body.appendChild(authDialog);
 
-    document.getElementById('login-btn').addEventListener('click', () => {
-      document.getElementById('login-btn').textContent = 'Loading...';
-      document.getElementById('login-btn').disabled = true;
-      
+    document.getElementById("login-btn").addEventListener("click", () => {
+      document.getElementById("login-btn").textContent = "Loading...";
+      document.getElementById("login-btn").disabled = true;
+
       login().catch((error) => {
         console.error("Login failed:", error);
         removeAuthDialog();
       });
     });
 
-    document.getElementById('signup-btn').addEventListener('click', () => {
+    document.getElementById("signup-btn").addEventListener("click", () => {
       removeAuthDialog();
-      navigate('/#signup');
+      navigate("/#signup");
       setTimeout(() => {
         const newUrl = new URL(window.location.href);
-        newUrl.searchParams.set('signup', 'true');
-        window.history.replaceState({}, '', newUrl);
-        window.dispatchEvent(new Event('popstate'));
+        newUrl.searchParams.set("signup", "true");
+        window.history.replaceState({}, "", newUrl);
+        window.dispatchEvent(new Event("popstate"));
       }, 100);
     });
 
-    document.getElementById('cancel-btn').addEventListener('click', () => {
+    document.getElementById("cancel-btn").addEventListener("click", () => {
       removeAuthDialog();
     });
-    
-    authDialog.addEventListener('click', (e) => {
+
+    authDialog.addEventListener("click", (e) => {
       if (e.target === authDialog) {
         removeAuthDialog();
       }
@@ -212,7 +213,7 @@ const Gamification = () => {
   };
 
   return (
-    <section id="gamification" className="py-20 bg-gray-50">
+    <section id="scoreboard" className="py-20 bg-gray-50">
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
           <h2 className="text-3xl font-bold text-gray-800 mb-4">
