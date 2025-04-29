@@ -1,10 +1,8 @@
-import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import SearchBox from "./SearchBox";
 
 const LandingSection = () => {
   const navigate = useNavigate();
-  const [showSearch, setShowSearch] = useState(false);
 
   const commonMaterials = [
     { id: 1, name: "Glass" },
@@ -28,41 +26,27 @@ const LandingSection = () => {
   const handleSignUpScroll = () => {
     // First check if the signup section exists
     const signupSection = document.getElementById("signup");
-    
+
     if (signupSection) {
       // If it exists, scroll to it
-      signupSection.scrollIntoView({ 
-        behavior: "smooth", 
-        block: "start" 
+      signupSection.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
       });
-      
+
       // Set URL parameter to show signup mode
       setTimeout(() => {
         const newUrl = new URL(window.location.href);
-        newUrl.searchParams.set('signup', 'true');
-        window.history.replaceState({}, '', newUrl);
-        
+        newUrl.searchParams.set("signup", "true");
+        window.history.replaceState({}, "", newUrl);
+
         // Dispatch event to notify other components
-        window.dispatchEvent(new Event('popstate'));
+        window.dispatchEvent(new Event("popstate"));
       }, 100);
     } else {
       // If the section doesn't exist on the current page, navigate to home with signup hash
-      navigate('/#signup');
+      navigate("/#signup");
     }
-  };
-
-  // Show search area and position it in view
-  const handleLearnMore = () => {
-    // show the search section if it's not already visible
-    if (!showSearch) {
-      setShowSearch(true);
-    }
-
-    //  scroll to the search
-    document.getElementById("search-heading")?.scrollIntoView({
-      behavior: "smooth",
-      block: "start", // Positions the element
-    });
   };
 
   return (
@@ -87,12 +71,6 @@ const LandingSection = () => {
                 className="bg-[#4CAF50] text-white px-8 py-3 rounded-md whitespace-nowrap hover:bg-opacity-90 transition text-lg font-medium text-center"
               >
                 Sign Up Free
-              </button>
-              <button
-                onClick={handleLearnMore}
-                className="bg-white text-gray-800 border border-gray-300 px-8 py-3 rounded-md whitespace-nowrap hover:bg-gray-50 transition text-lg font-medium text-center"
-              >
-                Learn More
               </button>
             </div>
 
@@ -124,27 +102,24 @@ const LandingSection = () => {
           </div>
         </div>
 
-        {/* Search Section - will show when Learn More is clicked */}
-        {showSearch && (
-          <div className="mt-12 mb-10 pt-8 pb-10 bg-gray-100 rounded-lg shadow-inner">
-            <div className="text-center mb-8">
-              <h2
-                id="search-heading"
-                className="text-3xl font-bold text-gray-800 mb-4 pt-4"
-              >
-                What Would You Like to Recycle?
-              </h2>
-              <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-                Search for items or upload a photo for instant identification
-                and recycling instructions.
-              </p>
-            </div>
-            <SearchBox />
+        {/* Search Section - shown directly on the homepage */}
+        <div className="mt-12 mb-10 pt-8 pb-10 bg-gray-100 rounded-lg shadow-inner">
+          <div className="text-center mb-8">
+            <h2
+              id="search-heading"
+              className="text-3xl font-bold text-gray-800 mb-4 pt-4"
+            >
+              What Would You Like to Recycle?
+            </h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Search for items or upload a photo for instant identification and
+              recycling instructions.
+            </p>
           </div>
-        )}
+          <SearchBox />
+        </div>
       </div>
     </div>
   );
 };
-
 export default LandingSection;
