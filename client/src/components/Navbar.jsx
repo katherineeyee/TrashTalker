@@ -131,7 +131,9 @@ const Navbar = () => {
                   onClick={goToAccount}
                   className={navButtonClass("account")}
                 >
-                  Account
+                  {user.displayName
+                    ? `Welcome, ${user.displayName.split(" ")[0]}`
+                    : `Welcome, ${user.email}`}
                 </button>
 
                 <button

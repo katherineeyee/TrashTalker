@@ -4,11 +4,10 @@
   "description": "CS160 Project",
   "main": "index.js",
   "scripts": {
-    "start": "node server/server.js",
-    "server": "nodemon server/server.js",
-    "client": "npm start --prefix client",
-    "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "install-all": "npm install && cd client && npm install && cd ../server && npm install"
+    "client": "cd client && npm start",
+    "server": "cd server && nodemon server.js",
+    "backend": "cd backend && python3 app.py",
+    "dev": "concurrently \"npm run client\" \"npm run server\" \"npm run backend\""
   },
   "keywords": [
     "mern",
@@ -28,6 +27,7 @@
     "react-router-dom": "^7.3.0"
   },
   "devDependencies": {
-    "concurrently": "^9.1.2"
+    "concurrently": "^8.2.2",
+    "nodemon": "^2.0.22"
   }
 }

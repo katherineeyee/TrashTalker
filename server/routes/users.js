@@ -53,6 +53,7 @@ router.get("/topScore", async (req, res) => {
 // API posts new user to database
 router.post("/", async (req, res)=> {
   const {firstName, lastName, email, points, location} = req.body;
+  console.log("Received user:", req.body);
   try {
     const existingUser = await User.findOne({ email });
     if (existingUser) {

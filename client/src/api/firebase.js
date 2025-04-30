@@ -19,14 +19,16 @@ export async function login() {
     const user = result.user;
     console.log(user);
 
-    const [firstName, lastName] = user.displayName ? user.displayName.split(' ') : ['', ''];
+    const [firstName, lastNameRaw] = user.displayName ? user.displayName.split(' ') : ['Anonymous'];
+    //Avoiding empty last name
+    const lastName = lastNameRaw || ''; 
     // Add user to database
     await fetch('http://localhost:5001/api/users', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
         firstName: firstName,
-        lastName: lastName,
+        lastName: lastNameRaw,
         email: user.email,
       })
     });
