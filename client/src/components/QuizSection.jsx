@@ -43,15 +43,16 @@ const QuizSection = ({ objectName, subCategory, mainCategory, onNext }) => {
       }
 
       // add points if user is correct
-      try {
-        let x = 50;
-        await fetch(`http://localhost:5001/api/users/${encodeURIComponent(email)}/points?numPoints=${x}`, {
-          method: "PUT",
-        });
-      } catch(error) {
-        console.error("Error adding user points: ", error);
+      if (option === mainCategory) {
+        try {
+          let x = 50;
+          await fetch(`http://localhost:5001/api/users/${encodeURIComponent(email)}/points?numPoints=${x}`, {
+            method: "PUT",
+          });
+        } catch(error) {
+          console.error("Error adding user points: ", error);
+        }
       }
-
     }
   };
 
