@@ -1,8 +1,21 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
+import {onUserStateChange} from "../api/firebase";
 
 const QuizSection = ({ objectName, subCategory, mainCategory, onNext }) => {
   const [selected, setSelected] = useState(null);
   const [isAnswered, setIsAnswered] = useState(false);
+  const [authUser, setAuthUser] = useState(null);
+
+  // get user from firebase
+  useEffect(() => {
+    onUserStateChange(setAuthUser);
+  }, []);
+
+  // define current user email
+  let email = null;
+  if (authUser?.email) {
+    email = authUser.email;
+  }
 
   const options = ["Recycle", "Compost", "Landfill"];
 
@@ -27,6 +40,16 @@ const QuizSection = ({ objectName, subCategory, mainCategory, onNext }) => {
         });
       } catch (err) {
         console.error("Error saving quiz result:", err);
+      }
+
+      // add points if user is correct
+      try {
+        let x = 50;
+        await fetch(`http://localhost:5001/api/users/${encodeURIComponent(email)}/points?numPoints=${x}`, {
+          method: "PUT",
+        });
+      } catch(error) {
+        console.error("Error adding user points: ", error);
       }
 
     }
