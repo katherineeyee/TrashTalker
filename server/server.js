@@ -2,6 +2,7 @@
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
+const quizRoutes = require('./routes/quiz');
 
 const app = express();
 const PORT = process.env.PORT || 5001; //changed port no. from 5000 to 5001
@@ -14,6 +15,7 @@ app.use(morgan('dev'));
 // set route handling
 const userRoutes = require('./routes/users');
 app.use('/api/users', userRoutes);
+app.use('/api/quiz', quizRoutes);
 
 const MongoDbURI = 'mongodb+srv://TrashTalker:055ECBBFF0F0FE62161096C6D4A32EBD@trashtalkercluster.lygarak.mongodb.net/TrashTalkerDB?retryWrites=true&w=majority&appName=TrashTalkerCluster'
 
