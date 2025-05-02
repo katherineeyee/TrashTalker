@@ -65,7 +65,7 @@ const QuizSection = ({ objectName, subCategory, mainCategory, onNext }) => {
   return (
     <div className="p-4 rounded-xl bg-white shadow-md max-w-xl mx-auto mt-6">
       <h2 className="text-xl font-semibold mb-4 text-gray-700">
-        Where <span className="text-blue-600 font-bold">{subCategory}</span> should we throw this/these trash?
+        Where should we throw out <span className="text-blue-600 font-bold">{subCategory}</span>?
       </h2>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
