@@ -1,8 +1,21 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
+import {onUserStateChange} from "../api/firebase";
 
 const QuizSection = ({ objectName, subCategory, mainCategory, onNext }) => {
   const [selected, setSelected] = useState(null);
   const [isAnswered, setIsAnswered] = useState(false);
+  const [authUser, setAuthUser] = useState(null);
+
+  // get user from firebase
+  useEffect(() => {
+    onUserStateChange(setAuthUser);
+  }, []);
+
+  // define current user email
+  let email = null;
+  if (authUser?.email) {
+    email = authUser.email;
+  }
 
   const options = ["Recycle", "Compost", "Landfill"];
 
@@ -29,6 +42,17 @@ const QuizSection = ({ objectName, subCategory, mainCategory, onNext }) => {
         console.error("Error saving quiz result:", err);
       }
 
+      // add points if user is correct
+      if (option === mainCategory) {
+        try {
+          let x = 50;
+          await fetch(`http://localhost:5001/api/users/${encodeURIComponent(email)}/points?numPoints=${x}`, {
+            method: "PUT",
+          });
+        } catch(error) {
+          console.error("Error adding user points: ", error);
+        }
+      }
     }
   };
 
@@ -41,7 +65,7 @@ const QuizSection = ({ objectName, subCategory, mainCategory, onNext }) => {
   return (
     <div className="p-4 rounded-xl bg-white shadow-md max-w-xl mx-auto mt-6">
       <h2 className="text-xl font-semibold mb-4 text-gray-700">
-        Where <span className="text-blue-600 font-bold">{subCategory}</span> should we throw this/these trash?
+        Where should we throw out <span className="text-blue-600 font-bold">{subCategory}</span>?
       </h2>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
