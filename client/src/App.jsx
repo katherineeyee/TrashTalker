@@ -13,9 +13,8 @@ import Electronics from "./pages/Electronics";
 import Batteries from "./pages/Batteries";
 import Rubber from "./pages/Rubber";
 import Paper from "./pages/Paper";
-import GamePage from "./Pages/Gamepage";
+import GamePage from "./pages/GamePage";
 import Footer from "./components/Footer";
-import ImageUploader from "./components/ImageUploader";
 import Navbar from './components/Navbar';
 import { onUserStateChange } from "./api/firebase";
 
