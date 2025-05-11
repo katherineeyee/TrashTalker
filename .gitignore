@@ -6,6 +6,7 @@
 
 # production
 /client/build
+/client/yolov8-demo
 
 # misc
 .DS_Store
