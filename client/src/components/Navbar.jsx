@@ -34,7 +34,9 @@ const Navbar = () => {
     setActiveSection(sectionId);
 
     if (location.pathname === "/") {
-      document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" });
+      document
+        .getElementById(sectionId)
+        ?.scrollIntoView({ behavior: "smooth" });
     } else {
       navigate(`/#${sectionId}`);
     }
@@ -45,7 +47,7 @@ const Navbar = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
     setActiveSection("");
   };
-  
+
   const goToAccount = () => {
     navigate("/account");
   };
@@ -57,23 +59,22 @@ const Navbar = () => {
         : "text-gray-700 hover:text-[#4CAF50]"
     }`;
   };
-  
 
   // Direct login with Google
   const handleDirectLogin = () => {
     login().then((currentUser) => setUser(currentUser));
   };
 
-  // Navigate to signup section 
+  // Navigate to signup section
   const navigateToSignup = () => {
     navigateToSection("signup");
     // Set URL parameter to show signup mode
     setTimeout(() => {
       const newUrl = new URL(window.location.href);
-      newUrl.searchParams.set('signup', 'true');
-      window.history.replaceState({}, '', newUrl);
+      newUrl.searchParams.set("signup", "true");
+      window.history.replaceState({}, "", newUrl);
       // Trigger a URL change event to notify components
-      window.dispatchEvent(new Event('popstate'));
+      window.dispatchEvent(new Event("popstate"));
     }, 100);
   };
 
@@ -98,10 +99,10 @@ const Navbar = () => {
               Features
             </button>
             <button
-              onClick={() => navigateToSection("gamification")}
-              className={navButtonClass("gamification")}
+              onClick={() => navigateToSection("scoreboard")}
+              className={navButtonClass("scoreboard")}
             >
-              Gamification
+              Score Board
             </button>
             <button
               onClick={() => navigateToSection("rewards")}
@@ -131,7 +132,9 @@ const Navbar = () => {
                   onClick={goToAccount}
                   className={navButtonClass("account")}
                 >
-                  Account
+                  {user.displayName
+                    ? `Welcome, ${user.displayName.split(" ")[0]}`
+                    : `Welcome, ${user.email}`}
                 </button>
 
                 <button
