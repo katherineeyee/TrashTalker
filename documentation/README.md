@@ -66,7 +66,7 @@ cd server
 npm install
 
 # Install frontend dependencies
-cd ../frontend
+cd ../client
 npm install
 
 # Install python dependencies and configure python env for python files in backend folder
