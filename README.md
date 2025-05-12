@@ -4,3 +4,6 @@ Members: Apple Ko, Jaewon Kim, Katherine Yee, Riley Short, Vu Ai Van Trinh
 
 # Start to execute
 npm run dev
+
+## See full README file in documentation folder 
+[Project Official Readme](documentation/README.md)
