@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
-import QuizSection from './QuizSection';
+import React, { useState } from "react";
+import QuizSection from "./QuizSection";
+import { uploadImage } from "../hooks/uploadUtils";
 
 function ImageUploader() {
   const [image, setImage] = useState(null);
-  const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState(null);
 
   const handleImageChange = (e) => {
     setImage(e.target.files[0]);
@@ -15,25 +16,24 @@ function ImageUploader() {
     e.preventDefault();
     if (!image) return;
 
-    const formData = new FormData();
-    formData.append("file", image);
     setLoading(true);
-
     try {
-      const response = await fetch("http://localhost:5000/predict", {
-        method: "POST",
-        body: formData,
-      });
-
-      const data = await response.json();
+      const data = await uploadImage(image, "http://localhost:5000/predict");
       setResult(data);
     } catch (error) {
-      console.error("Error uploading image:", error);
+      console.error("Error:", error);
+      alert("Error: " + error.message);
     } finally {
       setLoading(false);
     }
   };
 
+  const handleReset = () => {
+    setResult(null);
+    setImage(null);
+  };
+
+  // Show quiz if we have results, otherwise show upload form
   return (
     <div className="p-6">
       {!result ? (
@@ -46,21 +46,18 @@ function ImageUploader() {
           />
           <button
             type="submit"
-            className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
+            disabled={!image || loading}
+            className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 disabled:opacity-50"
           >
-            Start The game!
+            {loading ? "Analyzing..." : "Start The Game!"}
           </button>
-          {loading && <p className="text-gray-500">Analyzing...</p>}
         </form>
       ) : (
         <QuizSection
           objectName={result.object}
           subCategory={result.subCategory}
           mainCategory={result.mainCategory}
-          onNext={() => {
-            setResult(null);
-            setImage(null);
-          }}
+          onNext={handleReset}
         />
       )}
     </div>
