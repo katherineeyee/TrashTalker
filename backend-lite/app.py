@@ -13,7 +13,7 @@ print("Torch:", torch.__version__)
 
 # Create Flask application
 app = Flask(__name__)
-CORS(app, resources={r"/predict": {"origins": "http://localhost:3000"}})
+CORS(app)  # Allow cross-origin requests from the frontend
 
 # Configuration
 UPLOAD_FOLDER = "uploads"
