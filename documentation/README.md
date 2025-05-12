@@ -58,8 +58,9 @@ The platform leverages React for a simple and intuitive user interface, as well 
 git clone https://github.com/katherineeyee/TrashTalker.git
 
 # Add Machine Learning Model Source Code to Root Project Directory
-# This code did not fit in GitHub, so it must be added manually 
-https://drive.google.com/drive/folders/1lj5kFxLsEGsqXYQm7D67FL60YD-ihnE_?usp=sharing
+# This code did not fit in GitHub, so it must be added manually
+# Place the files in a folder called 'backend'
+https://drive.google.com/drive/folders/1Iq6YxJI_B5GMNrFHaRDz5VlIl5UfszLL?usp=sharing
 
 # Install backend dependencies
 cd server
