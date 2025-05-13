@@ -71,8 +71,11 @@ npm install
 cd ../client
 npm install
 
-# Install python dependencies and configure python env for python files in backend folder
+# Download "backend" folder from google drive for YOLOv8 machine learning model
+# This file is for setting up an object detection model that we use in the project
+https://drive.google.com/drive/u/1/folders/1Iq6YxJI_B5GMNrFHaRDz5VlIl5UfszLL
 
+# Install python dependencies and configure python env for python files in backend folder
 ```
 
 ---
