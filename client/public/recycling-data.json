@@ -92,7 +92,9 @@
       "camera",
       "headphone",
       "speaker",
-      "monitor"
+      "monitor",
+      "router",
+      "console"
     ],
     "Batteries": ["battery", "lithium", "rechargeable", "alkaline", "cell"]
   },
