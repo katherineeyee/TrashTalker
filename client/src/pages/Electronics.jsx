@@ -20,7 +20,7 @@ const Electronics = () => {
       
       <div className="w-[28%] h-[28%]">
         <img 
-          src="/electric.png"
+          src="/electronics.png"
           alt="Electronic Illustration"
           className="w-full object-contain"
         />
@@ -37,7 +37,7 @@ For items that cannot be donated, make a free Junk Pickup appointment for the fo
 Air conditioning unit, air purifier, blender, chainsaw, clothes dryer, coffeemaker, cooktop/stove/range, dehumidifier, dishwasher, freezer, generator, heater/space heater, hedge/edge/grass trimmer, iron, lawn mower, motors (of any kind), other tools or equipment, power tools/equipment (indoor/outdoor), pressure washer, refrigerator, steam iron, toaster, vacuum cleaner, waffle iron, washing machine.
 
 The above appliances cannot be disposed of as hazardous waste or e-waste."
-        imageSrc="/images/electronic_appliance.png"
+        imageSrc="/small_appliances.png"
       />
     </div>
 
@@ -46,7 +46,7 @@ The above appliances cannot be disposed of as hazardous waste or e-waste."
         title="Never Throw in the Garbage  "
         highlights={[""]}
         description="Small appliances are made from dangerous materials, such as freon, chlorofluorocarbons and mercury. Don’t throw them away because they can leach toxic chemicals into the environment."
-        imageSrc="/images/hazard.png"
+        imageSrc="/garbage.png"
       />
       </div>
 

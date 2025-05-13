@@ -20,7 +20,7 @@ const Batteries = () => {
       
       <div className="w-[28%] h-[28%]">
         <img 
-          src="/batteryImage.png"
+          src="/battery.png"
           alt="Battery Illustration"
           className="w-full object-contain"
         />
@@ -32,7 +32,7 @@ const Batteries = () => {
         title="Never Throw in the Trash"
         highlights={[""]}
         description="Batteries are banned from the trash because they contain metals and other toxic and corrosive chemicals that can leach into the environment. All batteries, including sizes AAA, AA, C, and D, need to be disposed of as Household Hazardous Waste."
-        imageSrc="/images/battery.png"
+        imageSrc="/batt.png"
       />
     </div>
 
@@ -41,7 +41,7 @@ const Batteries = () => {
         title="Buy Rechargeable Batteries "
         highlights={[""]}
         description="Most single-use batteries can be replaced by rechargeable ones. Consider switching batteries so you can reduce how much hazardous waste you generate. Today’s rechargeable batteries are even made to have the same battery life as single-use ones.Turn off battery-powered devices when not in use and avoid exposing electronics to cold conditions to get as much use possible from batteries."
-        imageSrc="/images/rechargeable_battery.png"
+        imageSrc="/rechargeable.png"
       />
       </div>
 
