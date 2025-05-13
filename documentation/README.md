@@ -35,7 +35,8 @@ The platform leverages React for a simple and intuitive user interface, as well 
 - Reward system for proper trash disposal 
 - Image detection and classification system 
 - Login and account creation with Google
-- Modern and intuitive user interface 
+- Modern and intuitive user interface
+- Search bar with image detection features
 
 
 
