@@ -20,7 +20,7 @@ const Paper = () => {
       
       <div className="w-[28%] h-[28%]">
         <img 
-          src="/paperImage.png"
+          src="/paper.png"
           alt="Paper Illustration"
           className="w-full object-contain"
         />
@@ -34,7 +34,7 @@ const Paper = () => {
         description="Recycle clean paper. Staples and tape are OK. Do not recycle paper that has foil or grease/food residue.
 
 Sometimes small bits of paper cannot be recycled because they get lost in the recycling process. In general, try to recycle everything receipt-sized or larger. Shredded paper should be sealed in a clear bag and recycled.  "
-        imageSrc="/images/paper.png"
+        imageSrc="/conpaper.png"
       />
     </div>
 
@@ -43,7 +43,7 @@ Sometimes small bits of paper cannot be recycled because they get lost in the re
         title="No Glitter & Glue "
         highlights={[""]}
         description="A piece of construction paper that’s covered with lots of glitter, glue, and/or paint contains too many contaminants to go through the paper recycling process."
-        imageSrc="/images/pyrex.png"
+        imageSrc="/glitter.png"
       />
       </div>
 
@@ -52,7 +52,7 @@ Sometimes small bits of paper cannot be recycled because they get lost in the re
         title="How Small Is Too Small?"
         highlights={[""]}
         description="Sometimes small bits of paper cannot be recycled because they get lost in the recycling process. In general, try to recycle everything receipt-sized or larger. Shredded paper is too small and should be thrown away."
-        imageSrc="/images/pyrex.png"
+        imageSrc="/small_paper.png"
       />
       </div>
 
@@ -61,6 +61,7 @@ Sometimes small bits of paper cannot be recycled because they get lost in the re
         title="Use Shredded Paper as Packing Material"
         highlights={[""]}
         description="Shipping out something fragile? Reuse your shredded paper as packing material to protect items during shipping."
+        imageSrc="/shredded.png"
       />
       </div>
 

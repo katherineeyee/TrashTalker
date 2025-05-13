@@ -34,7 +34,7 @@ const Glass = () => {
         description="Broken porcelain, ceramics, Pyrex, glassware, window glass, picture frame glass, and mirror glass go in the garbage cart.  Broken light bulbs should be put in puncture-proof containers and taken to the HHW drop-off facility (Household Hazardous Waste).  
 
 Place small broken glass or ceramic items in a small plastic bag or wrap them in newspaper. Put large pieces of broken glass or ceramics inside two layers of plastic bags. Large pieces that are in tact should be taken to the landfill."
-        imageSrc="/images/broken-glass.png"
+        imageSrc="/broken_glass.png"
       />
     </div>
 
@@ -43,7 +43,7 @@ Place small broken glass or ceramic items in a small plastic bag or wrap them in
         title="Do NOT recycle broken  "
         highlights={["DRINK GLASSES and PYREX."]}
         description="Broken stemware, other drink glasses, porcelain, and Pyrex cannot be recycled. These types of glass are made from mixed materials that will contaminate the glass recycling process for bottles and jars."
-        imageSrc="/images/pyrex.png"
+        imageSrc="/brokendrink.png"
       />
       </div>
 
