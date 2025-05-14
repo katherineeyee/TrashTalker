@@ -168,6 +168,121 @@ Step 6: The client displays the output, allowing the user to view detected items
 This block diagram emphasizes the clear separation between UI, logic, and AI components. Each block is responsible for a distinct function, and the system communicates through RESTful HTTP APIs and standardized data formats (e.g., JSON). The inclusion of Firebase ensures secure user access, while the use of modular blocks enables scalability, maintainability, and easier debugging of each component.
 
 ## Layer Diagram
++-----------------------------+
+|  1. Presentation Layer      |
+|  - React (Client)           |
+|  - Firebase SDK             |
+|  (User interface, input)    |
++-----------------------------+
+            ↓
++-----------------------------+
+|  2. Application Logic Layer |
+|  - Node.js + Express API    |
+|  - Auth token validation    |
+|  - API routing & control    |
++-----------------------------+
+            ↓
++-----------------------------+
+|  3. ML Inference Layer      |
+|  - Flask backend            |
+|  - YOLOv8 model             |
+|  - Image preprocessing      |
++-----------------------------+
+            ↓
++-----------------------------+
+|  4. External Services Layer |
+|  - Firebase Auth Server     |
+|  - (Optional: Cloud Storage)|
++-----------------------------+
+
+### 📄Layer Diagram Description – TrashTalker System
+The Layer Diagram illustrates the vertical organization of the TrashTalker system by dividing it into logical layers, each with distinct responsibilities and dependencies. The system follows a multi-tier architecture composed of the Presentation Layer, Application Logic Layer, Machine Learning (ML) Inference Layer, and External Services Layer. Each layer depends on the one below it but remains independent of the layers above, ensuring modularity, maintainability, and security.
+
+### 🧱 1. Presentation Layer
+Components: React.js Client, Firebase JavaScript SDK
+
+Responsibilities:
+
+Acts as the user interface for interaction with the system.
+
+Allows users to log in or register using Firebase Authentication.
+
+Provides interfaces for image upload and viewing prediction results.
+
+Sends HTTP requests to the Application Logic Layer and receives JSON responses.
+
+Dependencies: Communicates with Firebase for authentication and with the server API for data exchange.
+
+### ⚙️ 2. Application Logic Layer
+Components: Node.js with Express.js API
+
+Responsibilities:
+
+Acts as the central controller for request routing and business logic.
+
+Receives image upload and analysis requests from the client.
+
+Validates Firebase-issued ID tokens to authenticate users.
+
+Forwards image data to the ML Inference Layer for processing.
+
+Receives inference results and returns them to the client.
+
+Dependencies: Relies on the Presentation Layer for user input and on the ML Inference Layer for analysis.
+
+### 🧠 3. ML Inference Layer
+Components: Python Flask Server with YOLOv8 Model
+
+Responsibilities:
+
+Provides an API endpoint (e.g., /predict) to receive image data.
+
+Runs the YOLOv8 object detection model on the uploaded image.
+
+Preprocesses input, executes the model, and post-processes the results.
+
+Returns structured JSON results (detected classes, bounding boxes, confidence scores) to the application server.
+
+Dependencies: Operates independently of the frontend; only interacts with the Application Logic Layer.
+
+### 🔐 4. External Services Layer
+Components: Firebase Authentication
+
+Responsibilities:
+
+Manages user authentication and session control.
+
+Issues ID tokens after successful login or registration.
+
+Validates tokens (used by the client or the server).
+
+Does not handle application data directly but supports identity verification for secure access.
+
+Dependencies: Communicated with by both the Presentation and Application Logic Layers.
+
+### 🔁 Interaction Flow Summary
+The user logs in via the React client, which interacts with Firebase Authentication.
+
+Upon successful login, Firebase returns an ID token to the client.
+
+The client uploads an image and sends the token with the request to the Node.js API server.
+
+The server validates the token, then forwards the image to the Flask server.
+
+The YOLOv8 model performs inference and returns the result to the server.
+
+The server responds to the client with the prediction output.
+
+The client displays the results to the user.
+
+### ✅ Advantages of the Layered Architecture
+Modularity: Each layer has a clear responsibility, making the system easier to develop, test, and maintain.
+
+Security: Authentication is handled through a secure third-party (Firebase), and validation is enforced at the server layer.
+
+Scalability: Each component can be scaled independently—e.g., deploying multiple inference servers for performance.
+
+Separation of Concerns: UI, logic, and ML processing are clearly isolated, reducing coupling and improving maintainability.
 
 ## Class Diagram
 
