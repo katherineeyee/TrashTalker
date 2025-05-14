@@ -168,32 +168,7 @@ Step 6: The client displays the output, allowing the user to view detected items
 This block diagram emphasizes the clear separation between UI, logic, and AI components. Each block is responsible for a distinct function, and the system communicates through RESTful HTTP APIs and standardized data formats (e.g., JSON). The inclusion of Firebase ensures secure user access, while the use of modular blocks enables scalability, maintainability, and easier debugging of each component.
 
 ## Layer Diagram
-+-----------------------------+
-|  1. Presentation Layer      |
-|  - React (Client)           |
-|  - Firebase SDK             |
-|  (User interface, input)    |
-+-----------------------------+
-            ↓
-+-----------------------------+
-|  2. Application Logic Layer |
-|  - Node.js + Express API    |
-|  - Auth token validation    |
-|  - API routing & control    |
-+-----------------------------+
-            ↓
-+-----------------------------+
-|  3. ML Inference Layer      |
-|  - Flask backend            |
-|  - YOLOv8 model             |
-|  - Image preprocessing      |
-+-----------------------------+
-            ↓
-+-----------------------------+
-|  4. External Services Layer |
-|  - Firebase Auth Server     |
-|  - (Optional: Cloud Storage)|
-+-----------------------------+
+![Screenshot 2025-05-14 at 3 07 39 AM](https://github.com/user-attachments/assets/b5984281-4806-4d13-a28b-89eefc759ab6)
 
 ### 📄Layer Diagram Description – TrashTalker System
 The Layer Diagram illustrates the vertical organization of the TrashTalker system by dividing it into logical layers, each with distinct responsibilities and dependencies. The system follows a multi-tier architecture composed of the Presentation Layer, Application Logic Layer, Machine Learning (ML) Inference Layer, and External Services Layer. Each layer depends on the one below it but remains independent of the layers above, ensuring modularity, maintainability, and security.
