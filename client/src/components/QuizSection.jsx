@@ -105,19 +105,26 @@ export default function QuizSection({
     setIsAnswered(true);
     setShowHint(false);
 
+    // Check if the answer is correct
     const isCorrect = bin === correctBin;
     const email = authUser?.email;
     const newStreak = isCorrect ? streak + 1 : 0;
-    const earned = isCorrect ? 10 : 0;
-    const newPoints = isCorrect ? points : 0
 
-    setPoints(newPoints);
+    let earned = isCorrect ? 10 : 0;
+
+    //  Bonus: Every 5 correct answers, +5 bonus points
+    if (isCorrect && newStreak > 0 && newStreak % 5 === 0) {
+      earned += 5;
+    }
+
+    const updatedPoints = isCorrect ? points + earned : points;
+
     setStreak(newStreak);
-    setPoints((prev) => prev + earned);
+    setPoints(updatedPoints);
 
     if (email) {
       localStorage.setItem(`recycling-streak-${email}`, newStreak);
-      localStorage.setItem(`recycling-points-${email}`, points + earned);
+      localStorage.setItem(`recycling-points-${email}`, updatedPoints);
     }
 
     try {
@@ -139,12 +146,15 @@ export default function QuizSection({
       });
 
       if (isCorrect && email) {
+        // Update points in the database
         await fetch(
           `http://localhost:5001/api/users/${encodeURIComponent(
             email
           )}/points?numPoints=${earned}`,
           { method: "PUT" }
         );
+
+        // Check for and update badges
       }
     } catch (err) {
       console.error("Error saving quiz:", err);
@@ -196,6 +206,18 @@ export default function QuizSection({
           )}
         </div>
       </div>
+      {/* Login prompt */}
+      {!authUser && (
+        <div className="ml-3 text-sm text-gray-500">
+          <span>Login to save points and streaks. </span>
+          <a
+            href="/login"
+            className="text-blue-500 hover:underline font-medium"
+          >
+            Sign In
+          </a>
+        </div>
+      )}
 
       {/* Info Panel */}
       {showInfo && (
@@ -287,10 +309,7 @@ export default function QuizSection({
               ? `Correct! You earned 10 points.`
               : `The correct answer is ${correctBin}.`}
           </p>
-          <button
-            onClick={onNext}
-            className="mt-4 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-md"
-          >
+          <button className="mt-4 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-md">
             Next Question →
           </button>
         </div>
