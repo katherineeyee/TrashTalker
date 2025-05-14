@@ -105,6 +105,17 @@ TrashTalker/
 
 ---
 
+## Block Diagram
+![Screenshot 2025-05-14 at 2 56 18 AM](https://github.com/user-attachments/assets/9bcbe296-c356-4064-ad8d-6f90e2f12fc2)
+Need to add description
+
+## Layer Diagram
+
+## Class Diagram
+
+## Sequence Diagram
+
+
 ## How To Run
 
 Use 'npm run dev' to start the application from the main project directory
