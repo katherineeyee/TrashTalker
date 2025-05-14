@@ -309,7 +309,16 @@ export default function QuizSection({
               ? `Correct! You earned 10 points.`
               : `The correct answer is ${correctBin}.`}
           </p>
-          <button className="mt-4 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-md">
+          <button
+            onClick={() => {
+              // Reset state for next question
+              setSelected(null);
+              setIsAnswered(false);
+              setShowHint(false);
+              onNext(); //
+            }}
+            className="mt-4 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-md"
+          >
             Next Question →
           </button>
         </div>
