@@ -22,8 +22,13 @@ const HomePage = () => {
         <LandingSection />
         <Features />
 
+        <HowItWorks />
+
         {/* ✅ Game Start Section - Between Features and HowItWorks */}
-        <div className="flex flex-col items-center justify-center py-16 text-center">
+        <div
+          id="game"
+          className="flex flex-col items-center justify-center py-16 text-center"
+        >
           <h2 className="text-3xl font-semibold mb-4">Ready to Play?</h2>
           <p className="text-gray-600 mb-6">
             Test your trash-sorting skills and earn real rewards while playing!
@@ -35,8 +40,6 @@ const HomePage = () => {
             🎮 Start Game
           </button>
         </div>
-
-        <HowItWorks />
         <Gamification />
         <Reward />
 
