@@ -109,7 +109,9 @@ export default function QuizSection({
     const email = authUser?.email;
     const newStreak = isCorrect ? streak + 1 : 0;
     const earned = isCorrect ? 10 : 0;
+    const newPoints = isCorrect ? points : 0
 
+    setPoints(newPoints);
     setStreak(newStreak);
     setPoints((prev) => prev + earned);
 
@@ -189,7 +191,7 @@ export default function QuizSection({
           </div>
           {streak > 0 && (
             <div className="bg-red-100 px-2 py-1 rounded-md text-sm text-red-800">
-              Streak: {streak}
+              Answer Streak: {streak}
             </div>
           )}
         </div>
