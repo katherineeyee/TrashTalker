@@ -20,7 +20,7 @@ const Rubber = () => {
       
       <div className="w-[28%] h-[28%]">
         <img 
-          src="/rubberImage.png"
+          src="/rubber.png"
           alt="Rubber Illustration"
           className="w-full object-contain"
         />
@@ -32,7 +32,7 @@ const Rubber = () => {
         title="Rubber Gloves"
         highlights={[""]}
         description="Rubber gloves are made out of a durable material that allows them to be used repeatedly. Latex gloves, on the other hand, are single-use."
-        imageSrc="/images/rubber_gloves.png"
+        imageSrc="/rubber_gloves.png"
       />
     </div>
 
@@ -41,7 +41,7 @@ const Rubber = () => {
         title="Open Jars More Easily  "
         highlights={[""]}
         description="A clean, worn-out rubber glove can be stashed in a kitchen drawer or under the sink to help open jars that get stuck."
-        imageSrc="/images/jars.png"
+        imageSrc="/jar.png"
       />
       </div>
     
@@ -50,7 +50,7 @@ const Rubber = () => {
         title="Cut Up for Reuse "
         highlights={[""]}
         description="Rubber gloves can be cut up and repurposed as rubber bands or non-slip pads. Non-slip pads can be glued to items such as brooms and mops to keep them from sliding down walls."
-        imageSrc="/images/scissors.png"
+        imageSrc="/scissors.png"
       />
       </div>
 

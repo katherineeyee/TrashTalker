@@ -171,9 +171,9 @@ const RewardsPage = () => {
     try {
       const response = await fetch('http://localhost:5001/api/users');
       const data = await response.json();
-      
+
       // find current user by email
-      const currentUser = Array.isArray(data) 
+      const currentUser = Array.isArray(data)
         ? data.find(user => user.email === email)
         : null;
       setUserData(currentUser);
@@ -184,16 +184,30 @@ const RewardsPage = () => {
     }
   };
 
-  // temporary handle the redemption process
-  const handleRedeem = (reward) => {
-    if (userData?.points >= reward.points) {
-      alert(`You have successfully redeemed ${reward.name}!`);
-    } else {
+  const handleRedeem = async (reward) => {
+    if (!userData || userData.points < reward.points) {
       alert(`You don't have enough points to redeem ${reward.name}. You need ${reward.points - userData?.points} more points.`);
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `http://localhost:5001/api/users/${encodeURIComponent(user.email)}/points?numPoints=-${reward.points}`,
+        { method: 'PUT' }
+      );
+
+      if (!response.ok) {
+        throw new Error('Failed to update user points');
+      }
+
+      alert(`You have successfully redeemed ${reward.name}!`);
+      fetchUserData(user.email); // refresh point total
+    } catch (error) {
+      console.error('Redemption failed:', error);
+      alert('Something went wrong while redeeming your reward.');
     }
   };
 
-  // loading state
   if (isLoading) {
     return (
       <>
@@ -214,7 +228,7 @@ const RewardsPage = () => {
         <div className="max-w-md p-8 bg-white rounded-xl shadow-md text-center">
           <h2 className="text-2xl font-bold text-gray-800 mb-4">Rewards Access</h2>
           <p className="text-gray-600 mb-6">Please log in to view and redeem rewards.</p>
-          <button 
+          <button
             onClick={() => navigate('/login')}
             className="w-full py-3 bg-[#4CAF50] text-white rounded-lg hover:bg-opacity-90 transition focus:outline-none focus:ring-2 focus:ring-[#4CAF50] focus:ring-opacity-50"
           >
@@ -244,9 +258,9 @@ const RewardsPage = () => {
           </div>
 
           {/* User Points Summary */}
-          <PointsSummary 
-            points={user.points} 
-            availableRewards={rewards.filter(r => r.points <= user.points).length} 
+          <PointsSummary
+            points={user.points}
+            availableRewards={rewards.filter(r => r.points <= user.points).length}
           />
 
           {/* Available Rewards */}
@@ -254,7 +268,7 @@ const RewardsPage = () => {
             <h3 className="text-xl font-semibold text-gray-800 mb-4">Available Rewards</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {rewards.map((reward) => (
-                <RewardCard 
+                <RewardCard
                   key={reward.id}
                   reward={reward}
                   userPoints={user.points}

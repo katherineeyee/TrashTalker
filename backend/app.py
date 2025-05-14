@@ -6,14 +6,17 @@ import torch
 import os
 import uuid
 from PIL import Image
+import logging
 
-# Print versions for debugging
-print("NumPy:", np.__version__)
-print("Torch:", torch.__version__)
+# Configure logging
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 
+# Log versions for debugging
+logging.debug("NumPy: %s", np.__version__)
+logging.debug("Torch: %s", torch.__version__)
 # Create Flask application
 app = Flask(__name__)
-CORS(app, resources={r"/predict": {"origins": "http://localhost:3000"}})
+CORS(app)  # Allow cross-origin requests from the frontend
 
 # Configuration
 UPLOAD_FOLDER = "uploads"

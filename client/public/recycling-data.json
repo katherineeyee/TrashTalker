@@ -92,7 +92,13 @@
       "camera",
       "headphone",
       "speaker",
+<<<<<<< HEAD
       "monitor"
+=======
+      "monitor",
+      "router",
+      "console"
+>>>>>>> origin/main
     ],
     "Batteries": ["battery", "lithium", "rechargeable", "alkaline", "cell"]
   },

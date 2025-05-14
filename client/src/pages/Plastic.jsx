@@ -32,7 +32,7 @@ const Plastic = () => {
         description="If a container once held food, empty and scrape the container as well as you can before recycling it. Containers with food and liquids can contaminate whole batches of recycling and are often sent to a landfill.
 
 If the container has a plastic lid or cap, it’s okay to recycle the caps and lids as long as they are still attached to their original plastic containers."
-        imageSrc="/images/plastic.png"
+        imageSrc="/pet_plastic.png"
       />
     </div>
 

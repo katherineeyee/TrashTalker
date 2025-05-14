@@ -30,7 +30,7 @@ const Compost = () => {
         title="Do NOT compost them at home. "
         highlights={["BOTTLES and JARS."]}
         description="Bioplastic doesn’t belong in your home compost pile, regardless of whether it’s biodegradable or compostable. Utensils made from bioplastic won’t break down fully unless processed by an industrial facility."
-        imageSrc="/images/compostable.png"
+        imageSrc="/bioplastics.png"
       />
     </div>
 
@@ -39,7 +39,7 @@ const Compost = () => {
         title="BPI Logo?"
         highlights={["Compost Industrially."]}
         description="If you see the plastic item is marked with the BPI logo, that means it’s compostable in an industrial facility."
-        imageSrc="/images/BPI_logo.png"
+        imageSrc="/BPI_logo.png"
       />
     </div>
 
