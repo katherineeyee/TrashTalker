@@ -4,30 +4,113 @@ import {
   Droplet,
   Sun,
   Globe,
-  Flame,
   Plus,
-  RefreshCw,
-  FileText,
-  CupSoda,
-  Wine,
+  Recycle,
+  Sprout,
+  Trash2,
+  Info,
+  HelpCircle,
+  CheckCircle,
+  AlertTriangle,
+  Award,
+  Flame,
 } from "lucide-react";
-import { GetTopUsers } from "../hooks/GetTopUsers";
 import { useNavigate } from "react-router-dom";
 import { login, onUserStateChange } from "../api/firebase";
+import { GetTopUsers } from "../hooks/GetTopUsers";
 
-const iconCircle = (Icon, size, bg, text, ring = "") => (
-  <div
-    className={`w-16 h-16 rounded-full flex items-center justify-center ${bg} ${ring} hover:ring-2`}
-  >
-    <Icon size={size} className={text} />
+/*style for the card header*/
+const CardHeader = ({ title, iconComponent }) => (
+  <div className="flex justify-between items-center mb-4">
+    <div className="flex items-center">
+      <h3 className="text-xl font-semibold text-gray-700 mr-2">{title}</h3>
+      {iconComponent}
+    </div>
   </div>
 );
 
 const Gamification = () => {
+  const [showPointsGuide, setShowPointsGuide] = useState(false);
   const data = GetTopUsers(5);
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [authDialogActive, setAuthDialogActive] = useState(false);
+
+  //bin types
+  const BIN_TYPES = {
+    Recycle: {
+      icon: Recycle,
+      color: "text-green-600",
+      bg: "bg-green-100",
+      hover: "hover:bg-green-200",
+      description: "Paper, glass, plastic, and metal",
+    },
+    Compost: {
+      icon: Sprout,
+      color: "text-amber-600",
+      bg: "bg-amber-100",
+      hover: "hover:bg-amber-200",
+      description: "Food scraps and yard waste",
+    },
+    Landfill: {
+      icon: Trash2,
+      color: "text-gray-600",
+      bg: "bg-gray-100",
+      hover: "hover:bg-gray-200",
+      description: "Non-recyclable and non-compostable items",
+    },
+  };
+
+  const badges = [
+    {
+      Icon: Leaf,
+      label: "Eco Novice",
+      bg: "bg-green-100",
+      text: "text-green-600",
+      ring: "hover:ring-green-300",
+      description: "Start your recycling journey",
+    },
+    {
+      Icon: Droplet,
+      label: "Water Saver",
+      bg: "bg-blue-100",
+      text: "text-blue-600",
+      ring: "hover:ring-blue-300",
+      description: "Recycle 10 items",
+    },
+    {
+      Icon: Sun,
+      label: "Energy Hero",
+      bg: "bg-yellow-100",
+      text: "text-yellow-600",
+      ring: "hover:ring-yellow-300",
+      description: "Save energy by recycling 100+ items",
+    },
+    {
+      Icon: Globe,
+      label: "Global Impact",
+      bg: "bg-purple-100",
+      text: "text-purple-600",
+      ring: "hover:ring-purple-300",
+      description: "Reach 10,000 points",
+    },
+    {
+      Icon: Flame,
+      label: "On Fire",
+      bg: "bg-red-100",
+      text: "text-red-600",
+      ring: "hover:ring-red-300",
+      description: "7 recycling streak",
+    },
+    {
+      Icon: Plus,
+      label: "Unlock More",
+      bg: "bg-gray-200",
+      text: "text-gray-500",
+      ring: "hover:ring-gray-300",
+      description: "Keep recycling to unlock",
+    },
+  ];
 
   // Listen for authentication state changes
   useEffect(() => {
@@ -45,7 +128,7 @@ const Gamification = () => {
     return () => unsubscribe?.();
   }, [navigate, authDialogActive]);
 
-  // Function to remove dialog - defined outside so it can be used anywhere
+  // Function to remove dialog
   const removeAuthDialog = () => {
     const dialogElement = document.getElementById("auth-dialog");
     if (dialogElement) {
@@ -61,82 +144,6 @@ const Gamification = () => {
     points: user.points,
     highlight: true,
   }));
-
-  const points = [
-    {
-      Icon: RefreshCw,
-      label: "Plastic Bottle",
-      pts: 5,
-      bg: "bg-blue-100",
-      text: "text-blue-600",
-    },
-    {
-      Icon: FileText,
-      label: "Paper/Cardboard",
-      pts: 10,
-      bg: "bg-green-100",
-      text: "text-green-600",
-    },
-    {
-      Icon: CupSoda,
-      label: "Aluminum Can",
-      pts: 15,
-      bg: "bg-yellow-100",
-      text: "text-yellow-600",
-    },
-    {
-      Icon: Wine,
-      label: "Glass ",
-      pts: 20,
-      bg: "bg-purple-100",
-      text: "text-purple-600",
-    },
-  ];
-
-  const badges = [
-    {
-      Icon: Leaf,
-      label: "Eco Novice",
-      bg: "bg-green-100",
-      text: "text-green-600",
-      ring: "hover:ring-green-300",
-    },
-    {
-      Icon: Droplet,
-      label: "Water Saver",
-      bg: "bg-blue-100",
-      text: "text-blue-600",
-      ring: "hover:ring-blue-300",
-    },
-    {
-      Icon: Sun,
-      label: "Energy Hero",
-      bg: "bg-yellow-100",
-      text: "text-yellow-600",
-      ring: "hover:ring-yellow-300",
-    },
-    {
-      Icon: Globe,
-      label: "Global Impact",
-      bg: "bg-purple-100",
-      text: "text-purple-600",
-      ring: "hover:ring-purple-300",
-    },
-    {
-      Icon: Flame,
-      label: "On Fire",
-      bg: "bg-red-100",
-      text: "text-red-600",
-      ring: "hover:ring-red-300",
-    },
-    {
-      Icon: Plus,
-      label: "Unlock More",
-      bg: "bg-gray-200",
-      text: "text-gray-500",
-      ring: "hover:ring-gray-300",
-    },
-  ];
 
   // Handle leaderboard click with authentication check
   const handleLeaderboardClick = () => {
@@ -213,116 +220,225 @@ const Gamification = () => {
   };
 
   return (
-    <section id="scoreboard" className="py-20 bg-gray-50">
-      <div className="container mx-auto px-6">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl font-bold text-gray-800 mb-4">
-            Gamify Your Recycling Journey
-          </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Make a positive environmental impact while having fun and earning
-            rewards
-          </p>
-        </div>
+    <div id="scoreboard" className="max-w-6xl mx-auto p-6">
+      <h2 className="text-3xl font-bold text-gray-800 text-center mb-8">
+        Gamify Your Recycling Journey
+      </h2>
+      <p className=" text-lg text-gray-600 text-center mb-3">
+        Make a positive environmental impact while having fun and earning
+        rewards
+      </p>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          {/* Leaderboard */}
-          <div className="bg-white p-8 rounded shadow-md">
-            <h3 className="text-2xl font-semibold text-gray-800 mb-6">
-              Top Recyclers This Month
-            </h3>
+      <div className="bg-white rounded-xl shadow-md overflow-hidden">
+        <div className="flex flex-col md:flex-row">
+          {/* Recycling Bins - Left Side */}
+          <div className="w-full md:w-1/2 p-6 border-b md:border-b-0 md:border-r border-gray-200">
+            <CardHeader
+              title="Recycling Bins"
+              iconComponent={
+                <button
+                  onClick={() => setShowPointsGuide(!showPointsGuide)}
+                  className="p-1.5 rounded-full bg-blue-100 text-blue-600 hover:bg-blue-200"
+                >
+                  <HelpCircle size={16} />
+                </button>
+              }
+            />
+
+            {showPointsGuide && (
+              <div className="mb-4 p-3 bg-blue-50 rounded-lg text-sm">
+                <h3 className="font-medium text-blue-800 mb-2">Points Rules</h3>
+                <p className="mb-2">
+                  Points are awarded only when you correctly identify the proper
+                  bin for each item:
+                </p>
+                <div className="flex items-center mb-2 text-green-700">
+                  <CheckCircle size={16} className="mr-2" />
+                  <span>Correct answer: +10 points and streak continues</span>
+                </div>
+                <div className="flex items-center text-red-700">
+                  <AlertTriangle size={16} className="mr-2" />
+                  <span>Wrong answer: 0 points and streak resets</span>
+                </div>
+              </div>
+            )}
+
             <div className="space-y-4">
-              {leaderboard.map(
-                ({ position, name, location, points, highlight }, i) => (
+              {Object.entries(BIN_TYPES).map(
+                ([name, { icon: Icon, color, bg, description }], i) => (
                   <div
                     key={i}
-                    className={`flex items-center p-4 rounded ${
-                      highlight ? "bg-[#4CAF50]/5" : "bg-gray-100"
-                    }`}
+                    className="p-3 rounded-lg border hover:bg-gray-50"
                   >
-                    <div
-                      className={`w-10 h-10 rounded-full text-white font-bold flex items-center justify-center ${
-                        position === "A"
-                          ? "bg-[#4CAF50]"
-                          : position <= 3
-                          ? position === 2
-                            ? "bg-gray-500"
-                            : "bg-yellow-600"
-                          : "bg-gray-400"
-                      }`}
-                    >
-                      {position}
+                    <div className="flex items-center mb-1">
+                      <div
+                        className={`w-10 h-10 ${bg} rounded-full flex items-center justify-center mr-3`}
+                      >
+                        <Icon size={20} className={color} />
+                      </div>
+                      <span className="font-medium text-gray-800">
+                        {name} Bin
+                      </span>
                     </div>
-                    <div className="ml-4 flex-1">
-                      <h4 className="font-medium text-gray-800">{name}</h4>
-                      <p className="text-sm text-gray-500">{location}</p>
-                    </div>
-                    <div
-                      className={`font-bold ${
-                        highlight ? "text-[#4CAF50]" : "text-gray-700"
-                      }`}
-                    >
-                      {points} pts
-                    </div>
+                    <p className="text-sm text-gray-600 ml-13 pl-10">
+                      {description}
+                    </p>
                   </div>
                 )
               )}
             </div>
-            <div className="mt-6 text-center">
-              <button
-                onClick={handleLeaderboardClick}
-                className="text-[#4CAF50] font-medium hover:underline"
-              >
-                View Full Leaderboard
-              </button>
-            </div>
           </div>
 
-          {/* Points System + Badges */}
-          <div className="space-y-8">
-            {/* Points */}
-            <div className="bg-white p-8 rounded shadow-md">
-              <h3 className="text-2xl font-semibold text-gray-800 mb-6">
-                Points System
-              </h3>
-              <div className="space-y-4">
-                {points.map(({ Icon, label, pts, bg, text }, i) => (
-                  <div key={i} className="flex justify-between items-center">
-                    <div className="flex items-center">
-                      {iconCircle(Icon, 20, bg, text)}
-                      <span className="ml-3 text-gray-700">{label}</span>
-                    </div>
-                    <span className="font-medium text-gray-800">
-                      {pts} points
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
+          {/* Game Rules & Streak System - Right Side */}
+          <div className="w-full md:w-1/2 p-6">
+            <CardHeader
+              title="Game Rules"
+              iconComponent={
+                <button className="p-1.5 rounded-full bg-blue-100 text-blue-600 hover:bg-blue-200">
+                  <Info size={16} />
+                </button>
+              }
+            />
 
-            {/* Badges */}
-            <div className="bg-white p-8 rounded shadow-md">
-              <h3 className="text-2xl font-semibold text-gray-800 mb-6">
-                Achievement Badges
-              </h3>
-              <div className="grid grid-cols-3 gap-4">
-                {badges.map(({ Icon, label, bg, text, ring }, i) => (
-                  <div
-                    key={i}
-                    className="flex flex-col items-center text-center hover:scale-105 transition-transform"
-                  >
-                    {iconCircle(Icon, 28, bg, text, ring)}
-                    <p className="mt-2 text-sm font-medium text-gray-700">
-                      {label}
-                    </p>
-                  </div>
-                ))}
+            <div className="space-y-4">
+              {/* Quiz Section */}
+              <div className="p-4 bg-indigo-50 rounded-lg">
+                <h4 className="font-semibold text-gray-800 mb-2 flex items-center">
+                  <Award className="text-indigo-600 mr-2" size={18} />
+                  Recycling Quiz
+                </h4>
+                <ul className="text-gray-600 text-sm space-y-2">
+                  <li className="flex items-start">
+                    <CheckCircle
+                      size={16}
+                      className="text-green-600 mr-2 mt-0.5 flex-shrink-0"
+                    />
+                    <span>
+                      Correctly identify which bin an item belongs in (Recycle,
+                      Compost, or Landfill)
+                    </span>
+                  </li>
+                  <li className="flex items-start">
+                    <CheckCircle
+                      size={16}
+                      className="text-green-600 mr-2 mt-0.5 flex-shrink-0"
+                    />
+                    <span>Earn 10 points for each correct answer</span>
+                  </li>
+                  <li className="flex items-start">
+                    <AlertTriangle
+                      size={16}
+                      className="text-yellow-600 mr-2 mt-0.5 flex-shrink-0"
+                    />
+                    <span>
+                      Incorrect answers earn 0 points and reset your streak
+                    </span>
+                  </li>
+                  <li className="flex items-start">
+                    <CheckCircle
+                      size={16}
+                      className="text-green-600 mr-2 mt-0.5 flex-shrink-0"
+                    />
+                    <span>Maintain a streak for bonus points and badges</span>
+                  </li>
+                </ul>
+              </div>
+
+              {/* Streak System */}
+              <div className="p-4 bg-red-50 rounded-lg">
+                <h4 className="font-semibold text-gray-800 mb-2 flex items-center">
+                  <Flame className="text-red-600 mr-2" size={18} />
+                  Streak System
+                </h4>
+                <p className="text-gray-600 text-sm mb-2">
+                  Your streak increases by 1 for each correct answer, but resets
+                  to 0 when you answer incorrectly. Higher streaks unlock
+                  special badges and bonus points!
+                </p>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </section>
+
+      {/* Achievement Badges*/}
+      <div className="bg-white rounded-xl shadow-md mt-8 p-6">
+        <h3 className="text-2xl font-semibold text-gray-800 mb-6">
+          Achievement Badges
+        </h3>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+          {badges.map(({ Icon, label, bg, text, ring, description }, i) => (
+            <div
+              key={i}
+              className="flex flex-col items-center text-center hover:scale-105 transition-transform p-4 rounded-lg border hover:shadow-md"
+            >
+              <div
+                className={`w-16 h-16 rounded-full flex items-center justify-center ${bg} ${ring} hover:ring-2 mb-3`}
+              >
+                <Icon size={28} className={text} />
+              </div>
+              <p className="font-medium text-gray-800">{label}</p>
+              <p className="text-sm text-gray-500 mt-2">{description}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Leaderboard  */}
+
+      <div className="bg-white rounded-xl shadow-md mt-8 p-6">
+        <h3 className="text-2xl font-semibold text-gray-800 mb-6">
+          Top Recyclers This Month
+        </h3>
+        <div className="space-y-4">
+          {leaderboard.map(
+            ({ position, name, location, points, highlight }, i) => (
+              <div
+                key={i}
+                className={`flex items-center p-4 rounded ${
+                  highlight ? "bg-[#4CAF50]/5" : "bg-gray-100"
+                }`}
+              >
+                <div
+                  className={`w-10 h-10 rounded-full text-white font-bold flex items-center justify-center ${
+                    position === "A"
+                      ? "bg-[#4CAF50]"
+                      : position <= 3
+                      ? position === 1
+                        ? "bg-yellow-600"
+                        : position === 2
+                        ? "bg-gray-500"
+                        : "bg-amber-600"
+                      : "bg-gray-400"
+                  }`}
+                >
+                  {position}
+                </div>
+                <div className="ml-4 flex-1">
+                  <h4 className="font-medium text-gray-800">{name}</h4>
+                  <p className="text-sm text-gray-500">{location}</p>
+                </div>
+                <div
+                  className={`font-bold ${
+                    highlight ? "text-[#4CAF50]" : "text-gray-700"
+                  }`}
+                >
+                  {points} pts
+                </div>
+              </div>
+            )
+          )}
+        </div>
+        <div className="mt-6 text-center">
+          <button
+            onClick={handleLeaderboardClick}
+            className="text-[#4CAF50] font-medium hover:underline"
+          >
+            View Full Leaderboard
+          </button>
+        </div>
+      </div>
+    </div>
   );
 };
 

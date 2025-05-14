@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { onUserStateChange } from '../api/firebase';
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { onUserStateChange } from "../api/firebase";
 import Navbar from "../components/Navbar";
 import RewardCard from "../components/RewardCard";
 import PointsSummary from "../components/PointsSummary";
@@ -140,7 +140,7 @@ const rewards = [
     bg: "bg-red-50",
     icon: TargetIcon,
     color: "#CC0000",
-  }
+  },
 ];
 
 const RewardsPage = () => {
@@ -169,12 +169,12 @@ const RewardsPage = () => {
   const fetchUserData = async (email) => {
     setIsLoading(true);
     try {
-      const response = await fetch('http://localhost:5001/api/users');
+      const response = await fetch("http://localhost:5001/api/users");
       const data = await response.json();
 
       // find current user by email
       const currentUser = Array.isArray(data)
-        ? data.find(user => user.email === email)
+        ? data.find((user) => user.email === email)
         : null;
       setUserData(currentUser);
     } catch (error) {
@@ -186,25 +186,31 @@ const RewardsPage = () => {
 
   const handleRedeem = async (reward) => {
     if (!userData || userData.points < reward.points) {
-      alert(`You don't have enough points to redeem ${reward.name}. You need ${reward.points - userData?.points} more points.`);
+      alert(
+        `You don't have enough points to redeem ${reward.name}. You need ${
+          reward.points - userData?.points
+        } more points.`
+      );
       return;
     }
 
     try {
       const response = await fetch(
-        `http://localhost:5001/api/users/${encodeURIComponent(user.email)}/points?numPoints=-${reward.points}`,
-        { method: 'PUT' }
+        `http://localhost:5001/api/users/${encodeURIComponent(
+          user.email
+        )}/points?numPoints=-${reward.points}`,
+        { method: "PUT" }
       );
 
       if (!response.ok) {
-        throw new Error('Failed to update user points');
+        throw new Error("Failed to update user points");
       }
 
       alert(`You have successfully redeemed ${reward.name}!`);
       fetchUserData(user.email); // refresh point total
     } catch (error) {
-      console.error('Redemption failed:', error);
-      alert('Something went wrong while redeeming your reward.');
+      console.error("Redemption failed:", error);
+      alert("Something went wrong while redeeming your reward.");
     }
   };
 
@@ -226,10 +232,14 @@ const RewardsPage = () => {
     return (
       <div className="h-screen flex flex-col justify-center items-center bg-gray-50">
         <div className="max-w-md p-8 bg-white rounded-xl shadow-md text-center">
-          <h2 className="text-2xl font-bold text-gray-800 mb-4">Rewards Access</h2>
-          <p className="text-gray-600 mb-6">Please log in to view and redeem rewards.</p>
+          <h2 className="text-2xl font-bold text-gray-800 mb-4">
+            Rewards Access
+          </h2>
+          <p className="text-gray-600 mb-6">
+            Please log in to view and redeem rewards.
+          </p>
           <button
-            onClick={() => navigate('/login')}
+            onClick={() => navigate("/login")}
             className="w-full py-3 bg-[#4CAF50] text-white rounded-lg hover:bg-opacity-90 transition focus:outline-none focus:ring-2 focus:ring-[#4CAF50] focus:ring-opacity-50"
           >
             Sign In
@@ -260,12 +270,16 @@ const RewardsPage = () => {
           {/* User Points Summary */}
           <PointsSummary
             points={user.points}
-            availableRewards={rewards.filter(r => r.points <= user.points).length}
+            availableRewards={
+              rewards.filter((r) => r.points <= user.points).length
+            }
           />
 
           {/* Available Rewards */}
           <div className="bg-white p-6 rounded-lg shadow-md mb-8">
-            <h3 className="text-xl font-semibold text-gray-800 mb-4">Available Rewards</h3>
+            <h3 className="text-xl font-semibold text-gray-800 mb-4">
+              Available Rewards
+            </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {rewards.map((reward) => (
                 <RewardCard

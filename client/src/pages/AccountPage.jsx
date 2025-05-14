@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { onUserStateChange } from '../api/firebase';
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { onUserStateChange } from "../api/firebase";
 import Navbar from "../components/Navbar";
 import { ReactComponent as AmazonIcon } from "../icons/amazon.svg";
 import { ReactComponent as SpotifyIcon } from "../icons/spotify.svg";
@@ -15,18 +15,36 @@ import { ReactComponent as PandaExpressIcon } from "../icons/pandaexpress.svg";
 import { ReactComponent as StarbucksIcon } from "../icons/starbucks.svg";
 import { ReactComponent as TargetIcon } from "../icons/target.svg";
 
-import { 
-  User, Award, Gift, Star, Clock, Zap, ChevronRight,
-  Leaf, Droplet, Trophy, Globe, Sun, Flame, Plus,
-  RefreshCw, FileText, CupSoda, Wine, MapPin, Calendar, Mail
-} from 'lucide-react';
+import {
+  User,
+  Award,
+  Gift,
+  Star,
+  Clock,
+  Zap,
+  ChevronRight,
+  Leaf,
+  Droplet,
+  Trophy,
+  Globe,
+  Sun,
+  Flame,
+  Plus,
+  RefreshCw,
+  FileText,
+  CupSoda,
+  Wine,
+  MapPin,
+  Calendar,
+  Mail,
+} from "lucide-react";
 
-import UserInfoCard from '../components/UserInfoCard';
-import StatCard from '../components/StatCard';
-import Badge from '../components/Badge';
-import PointSystemItem from '../components/PointSystemItem';
-import RewardItem from '../components/RewardItem';
-import QuickActionButton from '../components/QuickActionButton';
+import UserInfoCard from "../components/UserInfoCard";
+import StatCard from "../components/StatCard";
+import Badge from "../components/Badge";
+import PointSystemItem from "../components/PointSystemItem";
+import RewardItem from "../components/RewardItem";
+import QuickActionButton from "../components/QuickActionButton";
 
 // constants
 const badges = [
@@ -180,35 +198,35 @@ const rewards = [
     bg: "bg-red-50",
     icon: TargetIcon,
     color: "#CC0000",
-  }
+  },
 ];
 
 const points = [
   {
     Icon: RefreshCw,
-    label: "Plastic Bottle",
-    pts: 5,
+    label: "Eco Novice - New User",
+    pts: 0,
     bg: "bg-blue-100",
     text: "text-blue-600",
   },
   {
     Icon: FileText,
-    label: "Paper/Cardboard",
-    pts: 10,
+    label: "Water Saver",
+    pts: 100,
     bg: "bg-green-100",
     text: "text-green-600",
   },
   {
     Icon: CupSoda,
-    label: "Aluminum Can",
-    pts: 15,
+    label: "Energy Hero",
+    pts: 1000,
     bg: "bg-yellow-100",
     text: "text-yellow-600",
   },
   {
     Icon: Wine,
-    label: "Glass",
-    pts: 20,
+    label: "Global Impact",
+    pts: 10000,
     bg: "bg-purple-100",
     text: "text-purple-600",
   },
@@ -220,7 +238,7 @@ const AccountPage = () => {
   const [userData, setUserData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
-  
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -240,12 +258,12 @@ const AccountPage = () => {
   const fetchUserData = async (email) => {
     setIsLoading(true);
     try {
-      const response = await fetch('http://localhost:5001/api/users');
+      const response = await fetch("http://localhost:5001/api/users");
       const data = await response.json();
-      
+
       // find current user by email
-      const currentUser = Array.isArray(data) 
-        ? data.find(user => user.email === email)
+      const currentUser = Array.isArray(data)
+        ? data.find((user) => user.email === email)
         : null;
       setUserData(currentUser);
     } catch (error) {
@@ -256,18 +274,25 @@ const AccountPage = () => {
   };
 
   const [isEditing, setIsEditing] = useState(false);
-  const [locationInput, setLocationInput] = useState(userData?.location || 'Click to add');
+  const [locationInput, setLocationInput] = useState(
+    userData?.location || "Click to add"
+  );
 
   const handleLocationUpdate = async () => {
     setIsEditing(false);
 
-    const res = await fetch(`http://localhost:5001/api/users/${encodeURIComponent(user.email)}/location`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ location: locationInput })
-    });
+    const res = await fetch(
+      `http://localhost:5001/api/users/${encodeURIComponent(
+        user.email
+      )}/location`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ location: locationInput }),
+      }
+    );
 
     const updated = await res.json();
     // update local state with response
@@ -292,10 +317,14 @@ const AccountPage = () => {
     return (
       <div className="h-screen flex flex-col justify-center items-center bg-gray-50">
         <div className="max-w-md p-8 bg-white rounded-xl shadow-md text-center">
-          <h2 className="text-2xl font-bold text-gray-800 mb-4">Account Access</h2>
-          <p className="text-gray-600 mb-6">Please log in to view your account details.</p>
-          <button 
-            onClick={() => navigate('/login')}
+          <h2 className="text-2xl font-bold text-gray-800 mb-4">
+            Account Access
+          </h2>
+          <p className="text-gray-600 mb-6">
+            Please log in to view your account details.
+          </p>
+          <button
+            onClick={() => navigate("/login")}
             className="w-full py-3 bg-[#4CAF50] text-white rounded-lg hover:bg-opacity-90 transition focus:outline-none focus:ring-2 focus:ring-[#4CAF50] focus:ring-opacity-50"
           >
             Sign In
@@ -308,23 +337,25 @@ const AccountPage = () => {
   const user = {
     ...authUser,
     ...userData,
-    firstName: userData?.firstName || authUser.displayName?.split(' ')[0] || '',
-    lastName: userData?.lastName || authUser.displayName?.split(' ')[1] || '',
+    firstName: userData?.firstName || authUser.displayName?.split(" ")[0] || "",
+    lastName: userData?.lastName || authUser.displayName?.split(" ")[1] || "",
     email: userData?.email || authUser.email,
     points: userData?.points || 0,
     streak: userData?.streak || 0,
     badges: userData?.badges || [],
-    location: userData?.location || '',
+    location: userData?.location || "",
     dateCreated: userData?.dateCreated || authUser.metadata?.creationTime,
     rewards: userData?.rewards || [],
-    level: Math.floor((userData?.points || 0) / 1000) + 1
+    level: Math.floor((userData?.points || 0) / 1000) + 1,
   };
   // get badges with achieved status
-  const userBadges = badges.map(badge => ({
+  const userBadges = badges.map((badge) => ({
     ...badge,
     achieved: user.badges?.includes(badge.name) || false,
   }));
-  const earnedRewards = rewards.filter(reward => user.rewards.includes(reward.name));
+  const earnedRewards = rewards.filter((reward) =>
+    user.rewards.includes(reward.name)
+  );
   // calc points to next level
   const pointsToNextLevel = 1000 - (user.points % 1000);
   const levelProgress = (user.points % 1000) / 10; // 0-100%
@@ -350,83 +381,88 @@ const AccountPage = () => {
                 </h2>
                 {/* User Info Cards */}
                 <div className="w-full space-y-3 mt-2">
-                  <UserInfoCard 
-                    icon={Mail} 
-                    label="Email" 
-                    value={user.email} 
+                  <UserInfoCard icon={Mail} label="Email" value={user.email} />
+                  <UserInfoCard
+                    icon={MapPin}
+                    label="Location"
+                    value={
+                      isEditing ? (
+                        <input
+                          value={locationInput}
+                          onChange={(e) => setLocationInput(e.target.value)}
+                          onBlur={() => handleLocationUpdate()}
+                          autoFocus
+                        />
+                      ) : (
+                        <span
+                          onClick={() => {
+                            setLocationInput(user?.location ?? "Click to add");
+                            setIsEditing(true);
+                          }}
+                        >
+                          {user?.location || "Click to add"}
+                        </span>
+                      )
+                    }
                   />
                   <UserInfoCard
-                      icon={MapPin}
-                      label="Location"
-                      value={
-                        isEditing ? (
-                            <input
-                                value={locationInput}
-                                onChange={(e) => setLocationInput(e.target.value)}
-                                onBlur={() => handleLocationUpdate()}
-                                autoFocus
-                            />
-                        ) : (
-                            <span
-                                onClick={() => {
-                                  setLocationInput(user?.location ?? "Click to add");
-                                  setIsEditing(true);
-                                }}
-                            >
-                              {user?.location || "Click to add"}
-                            </span>
-                        )
+                    icon={Calendar}
+                    label="Member Since"
+                    value={new Date(user.dateCreated).toLocaleDateString(
+                      "en-US",
+                      {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
                       }
-                  />
-                  <UserInfoCard
-                      icon={Calendar}
-                      label="Member Since"
-                      value={new Date(user.dateCreated).toLocaleDateString('en-US', {
-                      year: 'numeric',
-                      month: 'long',
-                      day: 'numeric'
-                    })} 
+                    )}
                   />
                 </div>
               </div>
             </div>
-            
+
             {/* Stats Overview */}
             <div className="bg-white p-6 rounded-lg shadow-md w-full md:w-2/3">
-              <h3 className="text-lg font-semibold text-gray-800 mb-6">My Stats</h3>
+              <h3 className="text-lg font-semibold text-gray-800 mb-6">
+                My Stats
+              </h3>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                <StatCard 
-                  icon={Star} 
-                  label="Points" 
-                  value={user.points} 
-                  bgColor="bg-[#4CAF50]/10" 
-                  textColor="text-[#4CAF50]" 
+                <StatCard
+                  icon={Star}
+                  label="Points"
+                  value={user.points}
+                  bgColor="bg-[#4CAF50]/10"
+                  textColor="text-[#4CAF50]"
                 />
-                <StatCard 
-                  icon={Award} 
-                  label="Level" 
-                  value={user.level} 
-                  bgColor="bg-blue-100" 
-                  textColor="text-blue-600" 
-                /> 
-                <StatCard 
-                  icon={Clock} 
-                  label="Day Streak" 
-                  value={user.streak} 
-                  bgColor="bg-amber-100" 
-                  textColor="text-amber-600" 
+                <StatCard
+                  icon={Award}
+                  label="Level"
+                  value={user.level}
+                  bgColor="bg-blue-100"
+                  textColor="text-blue-600"
+                />
+                <StatCard
+                  icon={Clock}
+                  label="Day Streak"
+                  value={user.streak}
+                  bgColor="bg-amber-100"
+                  textColor="text-amber-600"
                 />
               </div>
-              
+
               {/* Progress Bar */}
               <div className="mt-10">
                 <div className="flex justify-between text-sm mb-2">
-                  <span className="font-medium text-gray-600">Level {user.level}</span>
-                  <span className="font-medium text-gray-600">Level {user.level + 1}</span>
+                  <span className="font-medium text-gray-600">
+                    Level {user.level}
+                  </span>
+                  <span className="font-medium text-gray-600">
+                    Level {user.level + 1}
+                  </span>
                 </div>
                 <div className="w-full bg-gray-200 rounded-full h-2.5">
-                  <div 
-                    className="bg-[#4CAF50] h-2.5 rounded-full transition-all duration-500" 
+                  <div
+                    className="bg-[#4CAF50] h-2.5 rounded-full transition-all duration-500"
                     style={{ width: `${levelProgress}%` }}
                   ></div>
                 </div>
@@ -436,24 +472,28 @@ const AccountPage = () => {
               </div>
             </div>
           </div>
-          
+
           {/* Badges & Points System */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
             {/* Badges */}
             <div className="bg-white p-6 rounded-lg shadow-md">
               <div className="flex justify-between items-center mb-6">
-                <h3 className="text-lg font-semibold text-gray-800">My Badges</h3>
+                <h3 className="text-lg font-semibold text-gray-800">
+                  My Badges
+                </h3>
               </div>
               <div className="grid grid-cols-3 gap-4">
-                {userBadges.map(badge => (
-                  <Badge 
-                    key={badge.id} 
-                    badge={badge} 
-                    achieved={badge.achieved} 
+                {userBadges.map((badge) => (
+                  <Badge
+                    key={badge.id}
+                    badge={badge}
+                    achieved={badge.achieved}
                   />
                 ))}
-                <div className="flex flex-col items-center p-3 rounded-lg bg-gray-50 hover:scale-105 transition-transform cursor-default focus:outline-none"
-                  tabIndex={0}>
+                <div
+                  className="flex flex-col items-center p-3 rounded-lg bg-gray-50 hover:scale-105 transition-transform cursor-default focus:outline-none"
+                  tabIndex={0}
+                >
                   <div className="w-12 h-12 rounded-full flex items-center justify-center mb-2 bg-gray-200 hover:ring-gray-300 hover:ring-2">
                     <Plus size={20} className="text-gray-500" />
                   </div>
@@ -463,34 +503,38 @@ const AccountPage = () => {
                 </div>
               </div>
             </div>
-            
+
             {/* Points System */}
             <div className="bg-white p-6 rounded-lg shadow-md">
               <div className="flex justify-between items-center mb-6">
-                <h3 className="text-lg font-semibold text-gray-800">Points System</h3>
+                <h3 className="text-lg font-semibold text-gray-800">
+                  Points System
+                </h3>
               </div>
               <div className="space-y-4">
                 {points.map((item, i) => (
-                  <PointSystemItem 
-                    key={i} 
-                    Icon={item.Icon} 
-                    label={item.label} 
-                    pts={item.pts} 
-                    bg={item.bg} 
-                    text={item.text} 
+                  <PointSystemItem
+                    key={i}
+                    Icon={item.Icon}
+                    label={item.label}
+                    pts={item.pts}
+                    bg={item.bg}
+                    text={item.text}
                   />
                 ))}
               </div>
             </div>
           </div>
-          
+
           {/* Rewards History */}
           <div className="bg-white p-6 rounded-lg shadow-md mb-8">
             <div className="flex justify-between items-center mb-6">
-              <h3 className="text-lg font-semibold text-gray-800">Reward History</h3>
-              <button 
+              <h3 className="text-lg font-semibold text-gray-800">
+                Reward History
+              </h3>
+              <button
                 className="text-sm text-[#4CAF50] hover:underline flex items-center focus:outline-none focus:ring-2 focus:ring-[#4CAF50] focus:ring-opacity-50 rounded px-2 py-1"
-                onClick={() => navigate('/rewards')}
+                onClick={() => navigate("/rewards")}
               >
                 Browse Rewards <ChevronRight size={16} className="ml-1" />
               </button>
@@ -499,45 +543,47 @@ const AccountPage = () => {
               <div className="text-center py-8">
                 <Gift size={48} className="mx-auto text-gray-300 mb-3" />
                 <p className="text-gray-500">No rewards earned yet</p>
-                <button 
+                <button
                   className="mt-4 text-[#4CAF50] font-medium hover:underline focus:outline-none focus:ring-2 focus:ring-[#4CAF50] focus:ring-opacity-50 rounded px-2 py-1"
-                  onClick={() => navigate('/rewards')}
+                  onClick={() => navigate("/rewards")}
                 >
                   Browse Rewards
                 </button>
               </div>
             ) : (
               <div className="space-y-4">
-                {earnedRewards.map(reward => (
+                {earnedRewards.map((reward) => (
                   <RewardItem key={reward.id} reward={reward} />
                 ))}
               </div>
             )}
           </div>
-          
+
           {/* Quick Actions */}
           <div className="bg-white p-6 rounded-lg shadow-md">
-            <h3 className="text-lg font-semibold text-gray-800 mb-6">Quick Actions</h3>
+            <h3 className="text-lg font-semibold text-gray-800 mb-6">
+              Quick Actions
+            </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              <QuickActionButton 
-                icon={Zap} 
-                label="Scan Items" 
-                bgColor="bg-blue-100" 
-                iconColor="text-blue-600" 
+              <QuickActionButton
+                icon={Zap}
+                label="Scan Items"
+                bgColor="bg-blue-100"
+                iconColor="text-blue-600"
               />
-              <QuickActionButton 
-                icon={Gift} 
-                label="Redeem Rewards" 
-                bgColor="bg-green-100" 
-                iconColor="text-green-600" 
-                onClick={() => navigate('/rewards')}
+              <QuickActionButton
+                icon={Gift}
+                label="Redeem Rewards"
+                bgColor="bg-green-100"
+                iconColor="text-green-600"
+                onClick={() => navigate("/rewards")}
               />
-              <QuickActionButton 
-                icon={Trophy} 
-                label="Leaderboard" 
-                bgColor="bg-purple-100" 
-                iconColor="text-purple-600" 
-                onClick={() => navigate('/leaderboard')}
+              <QuickActionButton
+                icon={Trophy}
+                label="Leaderboard"
+                bgColor="bg-purple-100"
+                iconColor="text-purple-600"
+                onClick={() => navigate("/leaderboard")}
               />
             </div>
           </div>
