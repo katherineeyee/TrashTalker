@@ -59,9 +59,16 @@ const QuickSignUp = () => {
                   </p>
                   <button
                     onClick={() => navigate("/features")}
-                    className="bg-[#4CAF50] text-white px-6 py-2 rounded-md inline-block hover:bg-opacity-90 transition"
+                    className="bg-[#4CAF50] text-white px-6 py-2 rounded-md hover:bg-opacity-90 transition"
                   >
                     Explore Features
+                  </button>
+
+                  <button
+                    onClick={() => navigate("/game")}
+                    className="bg-[#4CAF50] text-white px-6 py-2 rounded-md hover:bg-opacity-90 transition mt-3"
+                  >
+                    Play Game
                   </button>
                 </div>
               ) : (
