@@ -23,6 +23,7 @@ import Faq from "./pages/Faq";
 import Terms from "./pages/Term";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import QuickSignUp from "./components/QuickSignUp";
+import Features from "./components/Features";
 function App() {
   const [user, setUser] = useState(null);
   useEffect(() => {
@@ -57,6 +58,7 @@ function App() {
         <Route path="/image-uploader" element={<ImageUploader />} />
         <Route path="/signup" element={<QuickSignUp />} />
         <Route path="/login" element={<QuickSignUp />} />
+        <Route path="/features" element={<Features />} />
         {/* Add more routes as needed */}
       </Routes>
       <Footer user={user} />

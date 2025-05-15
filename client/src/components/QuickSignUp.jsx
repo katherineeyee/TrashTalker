@@ -2,34 +2,39 @@ import React, { useState, useEffect } from "react";
 import { Check } from "lucide-react";
 import { FcGoogle } from "react-icons/fc";
 import { login, onUserStateChange } from "../api/firebase";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const QuickSignUp = () => {
-  const [user, setUser] = useState();
+  const [user, setUser] = useState(null);
   const [isLogin, setIsLogin] = useState(true);
   const location = useLocation();
-
-  useEffect(() => {
-    onUserStateChange((currentUser) => {
-      setUser(currentUser);
-    });
-  }, []);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
-    const autoLogin = urlParams.get('autologin');
-    
-    if (autoLogin === 'true' && !user) {
-      handleGoogleAuth();
-    }
-    
-    if (location.search.includes('signup') || location.hash === '#signup') {
+    const autoLogin = urlParams.get("autologin");
+
+    onUserStateChange((currentUser) => {
+      setUser(currentUser);
+      if (autoLogin === "true" && !currentUser) {
+        handleGoogleAuth();
+      }
+    });
+  }, [location]);
+
+  // Handle login/signup toggle based on URL
+  useEffect(() => {
+    if (location.search.includes("signup") || location.hash === "#signup") {
       setIsLogin(false);
-    } else if (location.search.includes('login') || location.hash === '#login') {
+    } else if (
+      location.search.includes("login") ||
+      location.hash === "#login"
+    ) {
       setIsLogin(true);
     }
-  }, [location, user]);
+  }, [location]);
 
+  // Google login trigger
   const handleGoogleAuth = () => {
     login().then((currentUser) => setUser(currentUser));
   };
@@ -52,29 +57,31 @@ const QuickSignUp = () => {
                     You're logged in and ready to start earning rewards for
                     recycling.
                   </p>
-                  <a
-                    href="#features"
+                  <button
+                    onClick={() => navigate("/features")}
                     className="bg-[#4CAF50] text-white px-6 py-2 rounded-md inline-block hover:bg-opacity-90 transition"
                   >
                     Explore Features
-                  </a>
+                  </button>
                 </div>
               ) : (
                 <>
                   <div className="w-full max-w-sm">
                     <p className="text-center text-gray-600 mb-6">
-                      {isLogin 
-                        ? "Sign in with your Google account to access your recycling progress." 
+                      {isLogin
+                        ? "Sign in with your Google account to access your recycling progress."
                         : "Create an account with Google to start tracking your recycling journey."}
                     </p>
-                    
+
                     <button
                       onClick={handleGoogleAuth}
                       className="w-full flex items-center justify-center gap-3 px-4 py-3 border border-gray-300 rounded-md hover:bg-gray-50 transition mb-6"
                     >
                       <FcGoogle size={24} />
                       <span className="font-medium text-gray-700">
-                        {isLogin ? "Sign in with Google" : "Sign up with Google"}
+                        {isLogin
+                          ? "Sign in with Google"
+                          : "Sign up with Google"}
                       </span>
                     </button>
                   </div>
@@ -96,8 +103,8 @@ const QuickSignUp = () => {
 
                   <div className="w-full max-w-sm mt-8 p-4 bg-gray-50 rounded">
                     <p className="text-sm text-gray-600 text-center">
-                      By continuing, you agree to our Terms of Service and Privacy Policy.
-                      Your data is secure with us.
+                      By continuing, you agree to our Terms of Service and
+                      Privacy Policy. Your data is secure with us.
                     </p>
                   </div>
                 </>
